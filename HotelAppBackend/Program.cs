@@ -151,3 +151,4 @@ app.MapDelete("/reservation/{Id}", async (IHotelService hotelService, string Id)
 app.MapDelete("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReview(Id));
 
 app.Run("http://0.0.0.0:3000");
+public partial class Program { }
