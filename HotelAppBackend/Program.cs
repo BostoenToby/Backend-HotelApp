@@ -14,6 +14,8 @@ builder.Services.AddTransient<IRoomTypeRepository, RoomTypeRepository>();
 builder.Services.AddTransient<IReservationRepository, ReservationRepository>();
 builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
 builder.Services.AddTransient<IHotelService, HotelService>();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 builder.Services
     .AddGraphQLServer()
@@ -23,6 +25,8 @@ builder.Services
 
 var app = builder.Build();
 app.MapGraphQL();
+app.MapSwagger();
+app.UseSwaggerUI();
 
 app.MapGet("/setup", () => "Hello World!");
 
