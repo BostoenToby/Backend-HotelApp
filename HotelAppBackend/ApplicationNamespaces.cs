@@ -25,6 +25,6 @@ global using Hotels.HotelService;
 
 global using Hotels.Validators;
 
-// global using Hotels.GraphQL.Queries;
+global using Hotels.GraphQL.Queries;
 
-// global using Hotels.GraphQL.Mutations;
+global using Hotels.GraphQL.Mutations;

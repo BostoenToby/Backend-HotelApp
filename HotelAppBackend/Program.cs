@@ -15,7 +15,14 @@ builder.Services.AddTransient<IReservationRepository, ReservationRepository>();
 builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
 builder.Services.AddTransient<IHotelService, HotelService>();
 
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Query>()
+    .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
+    .AddMutationType<Mutation>();
+
 var app = builder.Build();
+app.MapGraphQL();
 
 app.MapGet("/setup", () => "Hello World!");
 
@@ -139,4 +146,4 @@ app.MapDelete("/roomtype/{Id}", async (IHotelService hotelService, string Id) =>
 app.MapDelete("/reservation/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReservation(Id));
 app.MapDelete("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReview(Id));
 
-app.Run("http://0.0.0.0:3000");
+app.Run("http://localhost:3000");
