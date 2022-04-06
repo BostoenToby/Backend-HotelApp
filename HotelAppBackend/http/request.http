@@ -1,0 +1,214 @@
+GET http://0.0.0.0:3000/setup HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/hotels HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/hotel/6244a40363239c3b6bf83a59 HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/hotels/Ibis HTTP/1.1
+
+###
+
+POST http://localhost:3000/hotel HTTP/1.1
+Content-Type: application/json
+
+{
+    "Name": "Ibis Hotel",
+    "City": "Brussel",
+    "Address": "Brusselstraat 123",
+    "Province": "Brussel",
+    "Description": "It's a nice hotel",
+    "StarRating": 4.5,
+    "Longitude": 1.234567,
+    "Latitude": 7.654321,
+    "PricePerNightMin": 10.22,
+    "PricePerNightMax": 1420.32
+}
+
+###
+
+PUT http://0.0.0.0:3000/hotel HTTP/1.1
+Content-Type: application/json
+
+{
+    "Id": "6244a40363239c3b6bf83a59",
+    "Name": "Park Hotel",
+    "City": "Wevelgem",
+    "Address": "Brusselstraat 123",
+    "Province": "Brussel",
+    "Description": "It's a nice hotel",
+    "StarRating": 4.5,
+    "Longitude": 1.234567,
+    "Latitude": 7.654321,
+    "PricePerNightMin": 123,
+    "PricePerNightMax": 7030.33
+}
+
+###
+
+DELETE http://0.0.0.0:3000/hotel/624499bd2a4cf8696f4c76bf HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/roomtypes HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/roomtype/6244a30d32411cb973b06859 HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/roomtypes/Pr HTTP/1.1
+
+###
+
+POST http://0.0.0.0:3000/roomtype HTTP/1.1
+Content-Type: application/json
+
+{
+    "Name":"Standard2",
+    "NumberOfBeds": 2,
+    "SquareMeters": 8,
+    "Television": false,
+    "Breakfast": true,
+    "Airco": false,
+    "Wifi": false,
+    "View": false
+}
+
+###
+
+PUT http://0.0.0.0:3000/roomtype HTTP/1.1
+Content-Type: application/json
+
+{
+    "Id": "6244a30d32411cb973b06859",
+    "Name":"Premium",
+    "NumberOfBeds": 2,
+    "SquareMeters": 8,
+    "Television": false,
+    "Breakfast": true,
+    "Airco": false,
+    "Wifi": false,
+    "View": false
+}
+
+###
+
+DELETE http://0.0.0.0:3000/roomtype/62449a56ba52821f2ae5cde2 HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/reservations HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/reservations/Name=Bostoen&FirstName=Toby HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/reservation/6244a31132411cb973b0685b HTTP/1.1
+
+###
+
+POST http://0.0.0.0:3000/reservation HTTP/1.1
+Content-Type: application/json
+
+{
+   "Name": "Someone2",
+   "FirstName": "Random",
+   "BirthDate": "2019-07-04T13:33:03.969Z",
+   "EMail": "random.someone@student.howest.be",
+   "Hotel": {
+       "Name": "Ibis Hotel",
+        "City": "Brussel",
+        "Address": "Brusselstraat 123",
+        "Province": "Brussel",
+        "Description": "It's a nice hotel",
+        "StarRating": 4.5,
+        "Longitude": 1.234567,
+        "Latitude": 7.654321,
+        "PricePerNightMin": 100,
+        "PricePerNightMax": 250.3
+   },
+   "NumberOfRooms": 3,
+   "DateOfReservation": "2023-07-04T13:33:03.969Z",
+   "TotalPrice": 130.54
+}
+
+###
+
+PUT http://0.0.0.0:3000/reservation HTTP/1.1
+Content-Type: application/json
+
+{
+    "Id": "6244a31132411cb973b0685b",
+   "Name": "Bostoen",
+   "FirstName": "Toby",
+   "BirthDate": "2019-07-04T13:33:03.969Z",
+   "EMail": "peter.johnson@student.howest.be",
+   "Hotel": {
+       "Name": "Ibis Hotel",
+        "City": "Brussel",
+        "Address": "Brusselstraat 123",
+        "Province": "Brussel",
+        "Description": "It's a nice hotel",
+        "StarRating": 4.5,
+        "Longitude": 1.234567,
+        "Latitude": 7.654321,
+        "PricePerNightMin": 100,
+        "PricePerNightMax": 250.3
+   },
+   "NumberOfRooms": 3,
+   "DateOfReservation": "2023-07-04T13:33:03.969Z",
+   "TotalPrice": 130.54 
+}
+
+###
+
+DELETE http://0.0.0.0:3000/reservation/6244998b2a4cf8696f4c76be HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/reviews HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/reviews/BostoenToby HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/review/6244a31532411cb973b0685d HTTP/1.1
+
+###
+
+POST http://0.0.0.0:3000/review HTTP/1.1
+Content-Type: application/json
+
+{
+    "Author": "BostoenToby",
+    "StarRating": 3.5,
+    "ReviewDescription": "It was a nice stay at the hotel"
+}
+
+###
+
+PUT http://0.0.0.0:3000/review HTTP/1.1
+Content-Type: application/json
+
+{
+    "Id": "6244a31532411cb973b0685d",
+    "Author": "NotSomeoneRandom",
+    "StarRating": 3.5,
+    "ReviewDescription": "It was a nice stay at the hotel"
+}
+
+###
+
+DELETE http://0.0.0.0:3000/review/62449b19ba52821f2ae5cde4 HTTP/1.1
+
