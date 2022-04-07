@@ -6,7 +6,10 @@ public interface IHotelRepository
     Task<string> DeleteHotel(string Id);
     Task<List<Hotel>> GetAllHotels();
     Task<Hotel> GetHotelById(string Id);
+    Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin = 0, decimal PricePerNightMax = 1000000, float StarRating = -1);
     Task<List<Hotel>> GetHotelsByNamePiece(string NamePiece);
+    Task<List<Hotel>> GetHotelsByRegion(string Region);
+    Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
     Task<Hotel> UpdateHotel(Hotel hotel);
 }
 
@@ -17,6 +20,19 @@ public class HotelRepository : IHotelRepository
     {
         _context = context;
     }
+
+    List<string> Provinces = new List<string>(){
+        "West-Vlaanderen",
+        "Oost-Vlaanderen",
+        "Antwerpen",
+        "Henegouwen",
+        "Limburg",
+        "Luik",
+        "Luxemburg",
+        "Namen",
+        "Vlaams-Brabant",
+        "Waals-Brabant"
+    };
 
     //GET
     public async Task<List<Hotel>> GetAllHotels() => await _context.HotelsCollection.Find<Hotel>(_ => true).ToListAsync();
@@ -33,6 +49,81 @@ public class HotelRepository : IHotelRepository
         }
         return approvedHotels;
     }
+
+    public async Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating)
+    {
+        List<Hotel> allHotels = await GetAllHotels();
+        List<Hotel> chosenHotels = new List<Hotel>();
+        Console.WriteLine($"PricePerNightMin = {PricePerNightMin}");
+        Console.WriteLine($"PricePerNightMax = {PricePerNightMax}");
+        Console.WriteLine($"StarRating = {StarRating}");
+
+        foreach (Hotel hotel in allHotels)
+        {
+            if (PricePerNightMin <= hotel.PricePerNightMin)
+            {
+                Console.WriteLine("check 1");
+                Console.WriteLine($"Îngesteld: {PricePerNightMin} --> hotel: {hotel.PricePerNightMin}");
+                if (PricePerNightMax >= hotel.PricePerNightMax)
+                {
+                    Console.WriteLine("check 2");
+                    Console.WriteLine($"Îngesteld: {PricePerNightMax} --> hotel: {hotel.PricePerNightMax}");
+
+                    if (StarRating <= hotel.StarRating)
+                    {
+                        Console.WriteLine("check 3");
+                        chosenHotels.Add(hotel);
+                    }
+                }
+            }
+        }
+        return chosenHotels;
+    }
+
+    public async Task<List<Hotel>> GetHotelsByRegion(string Region)
+    {
+        List<Hotel> chosenHotels = new List<Hotel>();
+        if (Provinces.Contains(Region))
+        {
+            chosenHotels = await _context.HotelsCollection.Find(c => c.Province == Region).ToListAsync();
+        }
+        else
+        {
+            chosenHotels = await _context.HotelsCollection.Find(c => c.City == Region).ToListAsync();
+        }
+        return chosenHotels;
+    }
+
+    public async Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating)
+    {
+        List<Hotel> chosenHotelsRegion = new List<Hotel>();
+        List<Hotel> chosenHotels = new List<Hotel>();
+        if (Provinces.Contains(Region))
+        {
+            chosenHotelsRegion = await _context.HotelsCollection.Find(c => c.Province == Region).ToListAsync();
+        }
+        else
+        {
+            chosenHotelsRegion = await _context.HotelsCollection.Find(c => c.City == Region).ToListAsync();
+        }
+
+        foreach (Hotel hotel in chosenHotelsRegion)
+        {
+            Console.WriteLine(hotel.Name);
+            if (PricePerNightMin <= hotel.PricePerNightMin)
+            {
+                if (PricePerNightMax >= hotel.PricePerNightMax)
+                {
+                    if (StarRating <= hotel.StarRating)
+                    {
+                        chosenHotels.Add(hotel);
+                    }
+                }
+            }
+        }
+        return chosenHotels;
+    }
+
     public async Task<Hotel> GetHotelById(string Id) => await _context.HotelsCollection.Find<Hotel>(c => c.Id == Id).FirstOrDefaultAsync();
 
     //POST

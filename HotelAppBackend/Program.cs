@@ -33,6 +33,9 @@ app.MapGet("/setup", () => "Hello World!");
 app.MapGet("/hotels", async (IHotelService hotelService) => await hotelService.GetAllHotels());
 app.MapGet("/hotel/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetHotelById(Id));
 app.MapGet("/hotels/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetHotelsByNamePiece(NamePiece));
+app.MapGet("/hotels/Region/{Region}", async(IHotelService hotelService, string Region) => await hotelService.GetHotelsByRegion(Region));
+app.MapGet("/hotels/Filter/StarRating={StarRating}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}", async(IHotelService hotelService, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await hotelService.GetHotelsByFilter(PricePerNightMin, PricePerNightMax, StarRating));
+app.MapGet("/hotels/Region/Filter/Region={Region}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}&StarRating={StarRating}", async(IHotelService hotelService, string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await hotelService.GetHotelsByRegionAndFilter(Region, PricePerNightMin, PricePerNightMax, StarRating));
 app.MapGet("/roomtypes", async (IHotelService hotelService) => await hotelService.GetAllRoomTypes());
 app.MapGet("/roomtype/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetRoomTypeById(Id));
 app.MapGet("/roomtypes/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetRoomTypesByNamePiece(NamePiece));
@@ -85,6 +88,12 @@ app.MapPost("/reservation", async (IHotelService hotelService, IValidator<Reserv
         return Results.BadRequest(errors);
     }
 });
+// app.MapPost("/reservation", async (IHotelService hotelService, Reservation reservation) =>
+// {
+//     await hotelService.AddReservation(reservation);
+//     return Results.Created($"The reservation from {reservation.Name} has been added to the database", reservation);
+// });
+
 app.MapPost("/review", async (IHotelService hotelService, IValidator<Review> validator, Review review) =>
 {
     var validatorResult = validator.Validate(review);
@@ -100,46 +109,58 @@ app.MapPost("/review", async (IHotelService hotelService, IValidator<Review> val
     }
 });
 
-app.MapPut("/hotel", async(IHotelService hotelService, IValidator<Hotel> validator, Hotel hotel) => {
+app.MapPut("/hotel", async (IHotelService hotelService, IValidator<Hotel> validator, Hotel hotel) =>
+{
     var validatorResult = validator.Validate(hotel);
-    if (validatorResult.IsValid){
+    if (validatorResult.IsValid)
+    {
         await hotelService.UpdateHotel(hotel);
         return Results.Created($"The hotel {hotel.Name} has been updated to the database", hotel);
     }
-    else {
+    else
+    {
         var errors = validatorResult.Errors.Select(x => new { errors = x.ErrorMessage });
         return Results.BadRequest(errors);
     }
 });
-app.MapPut("/roomtype", async (IHotelService hotelService, IValidator<RoomType> validator, RoomType roomType) => {
+app.MapPut("/roomtype", async (IHotelService hotelService, IValidator<RoomType> validator, RoomType roomType) =>
+{
     var validatorResult = validator.Validate(roomType);
-    if (validatorResult.IsValid){
+    if (validatorResult.IsValid)
+    {
         await hotelService.UpdateRoomType(roomType);
         return Results.Created($"The roomtype {roomType.Name} has been updated to the database", roomType);
     }
-    else {
+    else
+    {
         var errors = validatorResult.Errors.Select(x => new { errors = x.ErrorMessage });
         return Results.BadRequest(errors);
     }
 });
-app.MapPut("/reservation", async (IHotelService hotelService, IValidator<Reservation> validator, Reservation reservation) => {
+app.MapPut("/reservation", async (IHotelService hotelService, IValidator<Reservation> validator, Reservation reservation) =>
+{
     var validatorResult = validator.Validate(reservation);
-    if (validatorResult.IsValid){
+    if (validatorResult.IsValid)
+    {
         await hotelService.UpdateReservation(reservation);
         return Results.Created($"The reservation from {reservation.Name} has been updated to the database", reservation);
     }
-    else {
+    else
+    {
         var errors = validatorResult.Errors.Select(x => new { errors = x.ErrorMessage });
         return Results.BadRequest(errors);
     }
 });
-app.MapPut("/review", async (IHotelService hotelService, IValidator<Review> validator, Review review) => {
+app.MapPut("/review", async (IHotelService hotelService, IValidator<Review> validator, Review review) =>
+{
     var validatorResult = validator.Validate(review);
-    if (validatorResult.IsValid){
+    if (validatorResult.IsValid)
+    {
         await hotelService.UpdateReview(review);
         return Results.Created($"The review from {review.Author} has been updated to the database", review);
     }
-    else {
+    else
+    {
         var errors = validatorResult.Errors.Select(x => new { errors = x.ErrorMessage });
         return Results.BadRequest(errors);
     }
@@ -150,7 +171,7 @@ app.MapDelete("/roomtype/{Id}", async (IHotelService hotelService, string Id) =>
 app.MapDelete("/reservation/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReservation(Id));
 app.MapDelete("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReview(Id));
 
-// app.Run("http://0.0.0.0:3000");
+app.Run("http://0.0.0.0:3000");
 // app.Run("http://localhost:3000");
-app.Run();
-public partial class Program { }
+// app.Run();
+// public partial class Program { }

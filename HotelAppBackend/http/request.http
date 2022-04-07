@@ -14,14 +14,30 @@ GET http://0.0.0.0:3000/hotels/Ibis HTTP/1.1
 
 ###
 
+GET http://0.0.0.0:3000/hotels/Filter/StarRating=4.5&PricePerNightMin=10&PricePerNightMax=2000
+
+###
+
+GET http://0.0.0.0:3000/hotels/Region/Oost-Vlaanderen
+
+###
+
+GET http://0.0.0.0:3000/hotels/Region/Kortrijk
+
+###
+
+GET http://0.0.0.0:3000/hotels/Region/Filter/Region=Brussel&PricePerNightMin=10&PricePerNightMax=2000&StarRating=3
+
+###
+
 POST http://localhost:3000/hotel HTTP/1.1
 Content-Type: application/json
 
 {
-    "Name": "Parkhotel",
+    "Name": "Parkhotel5.0",
     "City": "Kortrijk",
     "Address": "Kortrijkstraat 321",
-    "Province": "Kortrijk",
+    "Province": "Oost-Vlaanderen",
     "Description": "It's a nice hotel",
     "StarRating": 4.5,
     "Longitude": 1.234567,
@@ -36,13 +52,13 @@ PUT http://0.0.0.0:3000/hotel HTTP/1.1
 Content-Type: application/json
 
 {
-    "Id": "624d604f7568fc270d0dba50",
+    "Id": "624d57702142d6a59f837b18",
     "Name": "Park Hotel",
     "City": "Wevelgem",
     "Address": "Brusselstraat 123",
     "Province": "Brussel",
     "Description": "It's a nice hotel",
-    "StarRating": 4.5,
+    "StarRating": 4,
     "Longitude": 1.234567,
     "Latitude": 7.654321,
     "PricePerNightMin": 123,

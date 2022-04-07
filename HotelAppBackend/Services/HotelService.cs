@@ -15,7 +15,10 @@ public interface IHotelService
     Task<List<Review>> GetAllReviews();
     Task<List<RoomType>> GetAllRoomTypes();
     Task<Hotel> GetHotelById(string Id);
+    Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
     Task<List<Hotel>> GetHotelsByNamePiece(string NamePiece);
+    Task<List<Hotel>> GetHotelsByRegion(string Region);
+    Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
     Task<Reservation> GetReservationById(string Id);
     Task<List<Reservation>> GetReservationsByName(string Name, string FirstName);
     Task<Review> GetReviewById(string Id);
@@ -46,6 +49,9 @@ public class HotelService : IHotelService
     //Hotel
     public async Task<List<Hotel>> GetAllHotels() => await _hotelRepository.GetAllHotels();
     public async Task<List<Hotel>> GetHotelsByNamePiece(string NamePiece) => await _hotelRepository.GetHotelsByNamePiece(NamePiece);
+    public async Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await _hotelRepository.GetHotelsByFilter(PricePerNightMin, PricePerNightMax, StarRating);
+    public async Task<List<Hotel>> GetHotelsByRegion(string Region) => await _hotelRepository.GetHotelsByRegion(Region);
+    public async Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await _hotelRepository.GetHotelsByRegionAndFilter(Region, PricePerNightMin, PricePerNightMax, StarRating);
     public async Task<Hotel> GetHotelById(string Id) => await _hotelRepository.GetHotelById(Id);
     public async Task<Hotel> AddHotel(Hotel newHotel) => await _hotelRepository.AddHotel(newHotel);
     public async Task<Hotel> UpdateHotel(Hotel hotel) => await _hotelRepository.UpdateHotel(hotel);
