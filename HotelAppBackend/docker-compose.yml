@@ -11,14 +11,14 @@ services:
     volumes:
       - ./appsettings.Docker.json:/app/appsettings.json
 
-    mongo:
-      hostname: mongo
-      image: mongo
-      restart: always
-      ports:
-        - 27017:27017
-      environment:
-        MONGO_INITDB_ROOT_USERNAME: root
-        MONGO_INITDB_ROOT_PASSWORD: example
-      volumes: 
-        - ./mongo:/data/db
+  mongo:
+    hostname: mongo
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes: 
+      - ./mongo:/data/db

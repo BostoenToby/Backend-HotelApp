@@ -26,6 +26,7 @@ public interface IHotelService
     Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, int NumberOfRooms, DateTime DateOfReservation);
     Task<Review> GetReviewById(string Id);
     Task<List<Review>> GetReviewsByAuthor(string Author);
+    Task<List<Review>> GetReviewsByHotel(string hotelName);
     Task<RoomType> GetRoomTypeById(string Id);
     Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<List<RoomType>> GetRoomTypesByNamePiece(string NamePiece);
@@ -86,6 +87,7 @@ public class HotelService : IHotelService
     //Review
     public async Task<List<Review>> GetAllReviews() => await _reviewRepository.GetAllReviews();
     public async Task<List<Review>> GetReviewsByAuthor(string Author) => await _reviewRepository.GetReviewsByAuthor(Author);
+    public async Task<List<Review>> GetReviewsByHotel(string hotelName) => await _reviewRepository.GetReviewsByHotel(hotelName);
     public async Task<Review> GetReviewById(string Id) => await _reviewRepository.GetReviewById(Id);
     public async Task<Review> AddReview(Review newReview) => await _reviewRepository.AddReview(newReview);
     public async Task<Review> UpdateReview(Review review) => await _reviewRepository.UpdateReview(review);

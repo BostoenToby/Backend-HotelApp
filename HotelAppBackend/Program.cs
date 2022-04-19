@@ -45,7 +45,7 @@ app.MapGet("/reservation/{Id}", async (IHotelService hotelService, string Id) =>
 app.MapGet("/reviews", async (IHotelService hotelService) => await hotelService.GetAllReviews());
 app.MapGet("/reviews/{Author}", async (IHotelService hotelService, string Author) => await hotelService.GetReviewsByAuthor(Author));
 app.MapGet("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetReviewById(Id));
-
+app.MapGet("/reviews/hotel/{HotelName}", async(IHotelService hotelService, string hotelName) => await hotelService.GetReviewsByHotel(hotelName));
 app.MapPost("/hotel", async (IHotelService hotelService, IValidator<Hotel> validator, Hotel hotel) =>
 {
     var validatorResult = validator.Validate(hotel);

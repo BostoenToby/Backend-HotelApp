@@ -34,22 +34,23 @@ POST http://localhost:3000/hotel HTTP/1.1
 Content-Type: application/json
 
 {
-    "Name": "Parkhotel8.0",
-    "City": "Kortrijk",
-    "Address": "Kortrijkstraat 321",
-    "Province": "Oost-Vlaanderen",
-    "Description": "It's a nice hotel",
+    "Name": "BruggeHotel",
+    "City": "Brugge",
+    "Address": "Bruggestraat 321",
+    "Province": "West-Vlaanderen",
+    "Description": "With a beautiful view on Bruges!",
     "StarRating": 4.5,
-    "Longitude": 1.234567,
-    "Latitude": 7.654321,
-    "PricePerNightMin": 10.22,
-    "PricePerNightMax": 1420.32,
-    "reviews":{
-        "author": "Bostoen Toby",
-        "starRating": 4,
-        "image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
-        "reviewDescription": "It was a nice stay at the hotel"
-    }
+    "Longitude": 2.234867,
+    "Latitude": 4.654332,
+    "PricePerNightMin": 60.22,
+    "PricePerNightMax": 420.32,
+    "Reviews":[{
+        "Author": "Bostoen Toby",
+        "StarRating": 4,
+        "HotelName": "BruggeHotel",
+        "Image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
+        "ReviewDescription": "It was a nice stay at the hotel"
+    }]
 }
 
 ###
@@ -58,17 +59,32 @@ PUT http://0.0.0.0:3000/hotel HTTP/1.1
 Content-Type: application/json
 
 {
-    "Id": "624d57702142d6a59f837b18",
-    "Name": "Park Hotel",
-    "City": "Wevelgem",
-    "Address": "Brusselstraat 123",
-    "Province": "Brussel",
-    "Description": "It's a nice hotel",
-    "StarRating": 4,
-    "Longitude": 1.234567,
-    "Latitude": 7.654321,
-    "PricePerNightMin": 123,
-    "PricePerNightMax": 7030.33
+    "Id": "625eed204c0b45a3ec9fecf9",
+    "Name": "BruggeHotel",
+    "City": "Brugge",
+    "Address": "Bruggestraat 321",
+    "Province": "West-Vlaanderen",
+    "Description": "With a beautiful view on Bruges, it was the best hotel I've ever been to. I couldn't wish for more and I'll come back for sure. The service was perfect and the food was extroardinary. I recommand the hotel for sure to everyone who reads this and remember that I was typing this for just a test.",
+    "StarRating": 4.5,
+    "Longitude": 3.224700,
+    "Latitude": 51.209348,
+    "PricePerNightMin": 60.22,
+    "PricePerNightMax": 420.32,
+    "Rating": 5,
+    "Reviews":[{
+        "Author": "Bostoen Toby",
+        "hotelName": "BruggeHotel",
+        "starRating": 4.5,
+        "image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
+        "reviewDescription": "It was a nice stay at the hotel"
+    },
+    {
+        "Author": "Someone Anonymous",
+        "hotelName": "BruggeHotel",
+        "starRating": 4,
+        "image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
+        "reviewDescription": "It couldn't have been better"  
+    }]
 }
 
 ###
@@ -205,6 +221,10 @@ GET http://0.0.0.0:3000/reviews/BostoenToby HTTP/1.1
 
 ###
 
+GET http://0.0.0.0:3000/reviews/hotel/Parkhotel8.0 HTTP/1.1
+
+###
+
 GET http://0.0.0.0:3000/review/6244a31532411cb973b0685d HTTP/1.1
 
 ###
@@ -213,9 +233,11 @@ POST http://0.0.0.0:3000/review HTTP/1.1
 Content-Type: application/json
 
 {
-    "Author": "BostoenToby",
-    "StarRating": 3.5,
-    "ReviewDescription": "It was a nice stay at the hotel"
+    "author": "Bostoen Toby",
+    "starRating": 4,
+    "hotelName": "Ibis hotel",
+    "image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
+    "reviewDescription": "It was a nice stay at the hotel"
 }
 
 ###
