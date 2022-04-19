@@ -6,7 +6,10 @@ public interface IReservationRepository
     Task<string> DeleteReservation(string Id);
     Task<List<Reservation>> GetAllReservations();
     Task<Reservation> GetReservationById(string Id);
+    Task<List<Reservation>> GetReservationsByFilter(string HotelName, int NumberOfRooms, DateTime DateOfReservation);
     Task<List<Reservation>> GetReservationsByName(string Name, string FirstName);
+    Task<List<Reservation>> GetReservationsByRegion(string Region);
+    Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, int NumberOfRooms, DateTime DateOfReservation);
     Task<Reservation> UpdateReservation(Reservation reservation);
 }
 
@@ -18,11 +21,60 @@ public class ReservationRepository : IReservationRepository
         _context = context;
     }
 
+    List<string> Provinces = new List<string>(){
+        "West-Vlaanderen",
+        "Oost-Vlaanderen",
+        "Antwerpen",
+        "Henegouwen",
+        "Limburg",
+        "Luik",
+        "Luxemburg",
+        "Namen",
+        "Vlaams-Brabant",
+        "Waals-Brabant"
+    };
+
     //GET
     public async Task<List<Reservation>> GetAllReservations() => await _context.ReservationCollection.Find<Reservation>(_ => true).ToListAsync();
     public async Task<List<Reservation>> GetReservationsByName(string Name, string FirstName) => await _context.ReservationCollection.Find<Reservation>(c => (c.Name == Name) & (c.FirstName == FirstName)).ToListAsync();
-    public async Task<Reservation> GetReservationById(string Id) => await _context.ReservationCollection.Find<Reservation>(c => c.Id == Id).FirstOrDefaultAsync();
+    public async Task<List<Reservation>> GetReservationsByRegion(string Region)
+    {
+        List<Reservation> chosenReservations = new List<Reservation>();
+        if(Provinces.Contains(Region))
+        chosenReservations = await _context.ReservationCollection.Find(c => c.Hotel.Province == Region).ToListAsync();
+        else
+        chosenReservations = await _context.ReservationCollection.Find(c => c.Hotel.City == Region).ToListAsync();
+        return chosenReservations;
+    }
+    public async Task<List<Reservation>> GetReservationsByFilter(string HotelName, int NumberOfRooms, DateTime DateOfReservation)
+    {
+        List<Reservation> allReservations = await GetAllReservations();
+        List<Reservation> chosenReservations = new List<Reservation>();
+        foreach(Reservation reservation in allReservations)
+        if(reservation.Hotel.Name.Contains(HotelName)) //if not filled in = ""
+        if(reservation.NumberOfRooms >= NumberOfRooms) //if not filled in = 0
+        if(DateOfReservation.Month == reservation.DateOfReservation.Month && DateOfReservation.Day == reservation.DateOfReservation.Day && DateOfReservation.Year == reservation.DateOfReservation.Year) //if not filled in = 1/1/1900
+        chosenReservations.Add(reservation);
+        return chosenReservations;
+    }
+    public async Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, int NumberOfRooms, DateTime DateOfReservation)
+    {
+        List<Reservation> chosenReservationsRegion = new List<Reservation>();
+        List<Reservation> chosenReservations = new List<Reservation>();
+        if(Provinces.Contains(Region))
+        chosenReservationsRegion = await _context.ReservationCollection.Find(c => c.Hotel.Province == Region).ToListAsync();
+        else
+        chosenReservationsRegion = await _context.ReservationCollection.Find(c => c.Hotel.City == Region).ToListAsync();
 
+        foreach(Reservation reservation in chosenReservationsRegion)
+        if(reservation.Hotel.Name.Contains(HotelName))
+        if(reservation.NumberOfRooms >= NumberOfRooms)
+        if(DateOfReservation.Month == reservation.DateOfReservation.Month && DateOfReservation.Day == reservation.DateOfReservation.Day && DateOfReservation.Year == reservation.DateOfReservation.Year)
+        chosenReservations.Add(reservation);
+        return chosenReservations;
+
+    }
+    public async Task<Reservation> GetReservationById(string Id) => await _context.ReservationCollection.Find<Reservation>(c => c.Id == Id).FirstOrDefaultAsync();
     //POST
     public async Task<Reservation> AddReservation(Reservation newReservation)
     {

@@ -6,7 +6,9 @@ public interface IRoomTypeRepository
     Task<string> DeleteRoomType(string Id);
     Task<List<RoomType>> GetAllRoomTypes();
     Task<RoomType> GetRoomTypeById(string Id);
+    Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<List<RoomType>> GetRoomTypesByNamePiece(string NamePiece);
+    Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<RoomType> UpdateRoomType(RoomType roomType);
 }
 
@@ -33,6 +35,34 @@ public class RoomTypeRepository : IRoomTypeRepository
             }
         }
         return ApprovedRoomTypes;
+    }
+    public async Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View)
+    {
+        List<RoomType> allRoomTypes = await GetAllRoomTypes();
+        List<RoomType> chosenRoomTypes = new List<RoomType>();
+        foreach (RoomType roomType in allRoomTypes) //scenario where all parameters are filled in
+            if (roomType.NumberOfBeds >= NumberOfBeds && roomType.SquareMeters >= SquareMeters && roomType.Television == Television && roomType.Breakfast == Breakfast && roomType.Airco == Airco && roomType.Wifi == Wifi && roomType.View == View)
+                chosenRoomTypes.Add(roomType);
+
+        return chosenRoomTypes;
+    }
+    public async Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View)
+    {
+        List<RoomType> AllRoomTypes = await GetAllRoomTypes();
+        List<RoomType> RoomTypesName = new List<RoomType>();
+        List<RoomType> chosenRoomTypes = new List<RoomType>();
+
+        foreach (RoomType roomType in AllRoomTypes)
+        {
+            if (roomType.Name.Contains(NamePiece))
+            {
+                RoomTypesName.Add(roomType);
+            }
+        }
+        foreach (RoomType roomType in RoomTypesName)
+            if (roomType.NumberOfBeds == NumberOfBeds && roomType.SquareMeters >= SquareMeters && roomType.Television == Television && roomType.Breakfast == Breakfast && roomType.Airco == Airco && roomType.Wifi == Wifi && roomType.View == View)
+                chosenRoomTypes.Add(roomType);
+        return chosenRoomTypes;
     }
     public async Task<RoomType> GetRoomTypeById(string Id) => await _context.RoomTypeCollection.Find<RoomType>(c => c.Id == Id).FirstOrDefaultAsync();
 
