@@ -2,7 +2,18 @@ GET http://0.0.0.0:3000/setup HTTP/1.1
 
 ###
 
+POST http://0.0.0.0:3000/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "tobyB",
+    "password": "secretPassword"
+}
+
+###
+
 GET http://0.0.0.0:3000/hotels HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZ2l2ZW5fbmFtZSI6IkJvc3RvZW4gVG9ieSIsImNpdHkiOiJLb3J0cmlqayIsIm5iZiI6MTY1MDk5NTgzNCwiZXhwIjoxNjUwOTk5NDM0LCJpc3MiOiJodHRwczovLzAuMC4wLjA6MzAwMCIsImF1ZCI6ImhvdGVsX2FwaV91c2VycyJ9.vwJzEKUNmwASFTsDkBxLt4CAYI-3VwErqsz3uc7VZRs
 
 ###
 

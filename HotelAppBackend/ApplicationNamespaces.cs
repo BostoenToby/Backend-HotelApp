@@ -3,6 +3,10 @@ global using System;
 global using Microsoft.Extensions.Options;
 global using System.Collections.Generic;
 global using System.Reflection;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Authorization;
 
 //Nuget
 global using MongoDB.Bson;
