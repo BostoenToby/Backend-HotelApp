@@ -65,6 +65,7 @@ public class IntegrationTests
             City = "Brussel",
             Address = "Brusselsteenweg 321",
             Province = "Brussel",
+            StarRating = 3.5F,
             Longitude = 1.234567M,
             Latitude = 1.234567M,
             PricePerNightMin = 50.56M,
@@ -86,7 +87,6 @@ public class IntegrationTests
             FirstName = "Random",
             BirthDate = DateTime.Parse("2002-07-04T13:33:03.969Z"),
             EMail = "random.someone@gmail.com",
-            NumberOfRooms = 3,
             DateOfReservation = DateTime.Parse("2023-08-05T14:34:04.979Z"),
             TotalPrice = 480.89
         };
@@ -101,7 +101,7 @@ public class IntegrationTests
             Longitude = 1.234567M,
             Latitude = 1.234567M,
             PricePerNightMin = 150.89M,
-            PricePerNightMax = 500.47M
+            PricePerNightMax = 500.47M,
         };
         var result = await client.PostAsJsonAsync("/reservation", newReservation);
         Console.WriteLine(result);

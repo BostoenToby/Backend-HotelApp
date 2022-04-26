@@ -10,21 +10,6 @@ public class FakeReviewRepository : IReviewRepository
         return Task.FromResult(newReview);
     }
 
-    public Task<string> DeleteReview(string Id)
-    {
-        try
-        {
-            Review reviewFound = _reviews.Find(c => c.Id == Id);
-            _reviews.Remove(reviewFound);
-            return Task.Run(() => "The review was removed successfully");
-        }
-        catch (System.Exception ex)
-        {
-            Console.WriteLine(ex);
-            return Task.Run(() => "The review wasn't removed successfully");
-        }
-    }
-
     public Task<List<Review>> GetAllReviews()
     {
         return Task.FromResult(_reviews);
@@ -48,6 +33,15 @@ public class FakeReviewRepository : IReviewRepository
         }
         return Task.FromResult(reviewsFound);
     }
+    public Task<List<Review>> GetReviewsByHotel(string hotelName)
+    {
+        List<Review> reviewsFound = new List<Review>();
+        foreach(Review review in _reviews)
+        if(review.HotelName == hotelName)
+        reviewsFound.Add(review);
+
+        return Task.FromResult(reviewsFound);
+    }
 
     public Task<Review> UpdateReview(Review review)
     {
@@ -68,6 +62,20 @@ public class FakeReviewRepository : IReviewRepository
         }
     }
 
-    public static void AddFakeReview(Review fakeReview) => _reviews.Add(fakeReview);
+    public Task<string> DeleteReview(string Id)
+    {
+        try
+        {
+            Review reviewFound = _reviews.Find(c => c.Id == Id);
+            _reviews.Remove(reviewFound);
+            return Task.Run(() => "The review was removed successfully");
+        }
+        catch (System.Exception ex)
+        {
+            Console.WriteLine(ex);
+            return Task.Run(() => "The review wasn't removed successfully");
+        }
+    }
 
+    public static void AddFakeReview(Review fakeReview) => _reviews.Add(fakeReview);
 }

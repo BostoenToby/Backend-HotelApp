@@ -17,7 +17,6 @@ public class Hotel
     public decimal Latitude { get; set; }
     public decimal PricePerNightMin { get; set; }
     public decimal PricePerNightMax { get; set; }
-    public float Rating { get; set; }
     public List<Review>? Reviews { get; set; }
     public List<RoomType>? RoomTypes { get; set; }
     public List<Reservation>? Reservations { get; set; }

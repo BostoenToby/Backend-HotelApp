@@ -51,7 +51,7 @@ app.UseAuthorization();
 
 app.MapGet("/setup", () => "Hello World!");
 
-app.MapGet("/hotels",[Authorize] async (IHotelService hotelService) => await hotelService.GetAllHotels());
+app.MapGet("/hotels", async (IHotelService hotelService) => await hotelService.GetAllHotels());
 app.MapGet("/hotel/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetHotelById(Id));
 app.MapGet("/hotels/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetHotelsByNamePiece(NamePiece));
 app.MapGet("/hotels/Region/{Region}", async(IHotelService hotelService, string Region) => await hotelService.GetHotelsByRegion(Region));
@@ -223,7 +223,7 @@ app.MapDelete("/roomtype/{Id}", async (IHotelService hotelService, string Id) =>
 app.MapDelete("/reservation/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReservation(Id));
 app.MapDelete("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReview(Id));
 
-app.Run("http://0.0.0.0:3000");
+// app.Run("http://0.0.0.0:3000");
 // app.Run("http://localhost:3000");
-// app.Run();
-// public partial class Program { }
+app.Run();
+public partial class Program { }
