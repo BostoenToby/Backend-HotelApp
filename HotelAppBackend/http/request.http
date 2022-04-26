@@ -34,22 +34,58 @@ POST http://localhost:3000/hotel HTTP/1.1
 Content-Type: application/json
 
 {
-    "Name": "BruggeHotel",
-    "City": "Brugge",
-    "Address": "Bruggestraat 321",
+    "Name": "NieuwpoortHotel2.0",
+    "City": "Nieuwpoort",
+    "Address": "Nieuwpoortstraat 321",
     "Province": "West-Vlaanderen",
-    "Description": "With a beautiful view on Bruges!",
+    "Description": "With a beautiful view on Nieuwpoort!",
     "StarRating": 4.5,
-    "Longitude": 2.234867,
-    "Latitude": 4.654332,
-    "PricePerNightMin": 60.22,
-    "PricePerNightMax": 420.32,
+    "Longitude": 2.75135,
+    "Latitude": 51.13008,
+    "PricePerNightMin": 43.22,
+    "PricePerNightMax": 640.32,
     "Reviews":[{
         "Author": "Bostoen Toby",
-        "StarRating": 4,
-        "HotelName": "BruggeHotel",
+        "StarRating": 2.5,
+        "HotelName": "NieuwpoortHotel2.0",
         "Image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
         "ReviewDescription": "It was a nice stay at the hotel"
+    }],
+    "RoomTypes":[{
+        "Name": "Presidential",
+        "NumberOfBeds": "3",
+        "SquareMeters": 50,
+        "Television": true,
+        "Breakfast": true,
+        "Airco": true,
+        "Wifi": true,
+        "View": true,
+        "Price": 640.32,
+        "HotelName": "NieuwpoortHotel2.0"
+    },
+    {
+        "Name": "Standard",
+        "NumberOfBeds": 2,
+        "SquareMeters": 30,
+        "Television": true,
+        "Breakfast": false,
+        "Airco": true,
+        "Wifi": false,
+        "View": false,
+        "Price": 120.56,
+        "HotelName": "NieuwpoortHotel2.0"
+    },
+    {
+        "Name": "Economic",
+        "NumberOfBeds": 1,
+        "SquareMeters": 20,
+        "Television": false,
+        "Breakfast": false,
+        "Airco": false,
+        "Wifi": false,
+        "View": false,
+        "Price": 43.22,
+        "HotelName": "NieuwpoortHotel2.0"
     }]
 }
 
@@ -59,31 +95,59 @@ PUT http://0.0.0.0:3000/hotel HTTP/1.1
 Content-Type: application/json
 
 {
-    "Id": "625eed204c0b45a3ec9fecf9",
-    "Name": "BruggeHotel",
-    "City": "Brugge",
-    "Address": "Bruggestraat 321",
+    "Id": "62617f84444cfaf8a77920c2",
+    "Name": "NieuwpoortHotel2.0",
+    "City": "Nieuwpoort",
+    "Address": "Nieuwpoortstraat 321",
     "Province": "West-Vlaanderen",
-    "Description": "With a beautiful view on Bruges, it was the best hotel I've ever been to. I couldn't wish for more and I'll come back for sure. The service was perfect and the food was extroardinary. I recommand the hotel for sure to everyone who reads this and remember that I was typing this for just a test.",
+    "Description": "With a beautiful view on Nieuwpoort!",
     "StarRating": 4.5,
-    "Longitude": 3.224700,
-    "Latitude": 51.209348,
-    "PricePerNightMin": 60.22,
-    "PricePerNightMax": 420.32,
-    "Rating": 5,
+    "Longitude": 2.75135,
+    "Latitude": 51.13008,
+    "PricePerNightMin": 43.22,
+    "PricePerNightMax": 640.32,
     "Reviews":[{
         "Author": "Bostoen Toby",
-        "hotelName": "BruggeHotel",
-        "starRating": 4.5,
-        "image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
-        "reviewDescription": "It was a nice stay at the hotel"
+        "StarRating": 2.5,
+        "HotelName": "NieuwpoortHotel2.0",
+        "Image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
+        "ReviewDescription": "It was a nice stay at the hotel"
+    }],
+    "RoomTypes":[{
+        "Name": "Presidential",
+        "NumberOfBeds": "3",
+        "SquareMeters": 50,
+        "Television": true,
+        "Breakfast": true,
+        "Airco": true,
+        "Wifi": true,
+        "View": true,
+        "Price": 640.32,
+        "HotelName": "NieuwpoortHotel2.0"
     },
     {
-        "Author": "Someone Anonymous",
-        "hotelName": "BruggeHotel",
-        "starRating": 4,
-        "image": "https://media-cdn.tripadvisor.com/media/photo-s/16/1a/ea/54/hotel-presidente-4s.jpg",
-        "reviewDescription": "It couldn't have been better"  
+        "Name": "Standard",
+        "NumberOfBeds": 2,
+        "SquareMeters": 30,
+        "Television": true,
+        "Breakfast": false,
+        "Airco": true,
+        "Wifi": false,
+        "View": false,
+        "Price": 120.56,
+        "HotelName": "NieuwpoortHotel2.0"
+    },
+    {
+        "Name": "Economic",
+        "NumberOfBeds": 1,
+        "SquareMeters": 20,
+        "Television": false,
+        "Breakfast": false,
+        "Airco": false,
+        "Wifi": false,
+        "View": false,
+        "Price": 43.22,
+        "HotelName": "NieuwpoortHotel2.0"
     }]
 }
 
@@ -101,7 +165,11 @@ GET http://0.0.0.0:3000/roomtype/6244a30d32411cb973b06859 HTTP/1.1
 
 ###
 
-GET http://0.0.0.0:3000/roomtypes/Pr HTTP/1.1
+GET http://0.0.0.0:3000/roomtypes/roomname/Pr HTTP/1.1
+
+###
+
+GET http://0.0.0.0:3000/roomtypes/hotelname/Nieu HTTP/1.1
 
 ###
 
@@ -109,14 +177,16 @@ POST http://0.0.0.0:3000/roomtype HTTP/1.1
 Content-Type: application/json
 
 {
-    "Name":"Standard2",
-    "NumberOfBeds": 2,
-    "SquareMeters": 8,
+    "Name": "Standard",
+    "NumberOfBeds": 1,
+    "SquareMeters": 20,
     "Television": false,
-    "Breakfast": true,
+    "Breakfast": false,
     "Airco": false,
     "Wifi": false,
-    "View": false
+    "View": false,
+    "Price": 43.22,
+    "HotelName": "BruggeHotel"
 }
 
 ###
@@ -174,7 +244,6 @@ Content-Type: application/json
         "PricePerNightMin": 100,
         "PricePerNightMax": 250.3
    },
-   "NumberOfRooms": 3,
    "DateOfReservation": "2023-07-04T13:33:03.969Z",
    "TotalPrice": 130.54
 }
@@ -202,7 +271,6 @@ Content-Type: application/json
         "PricePerNightMin": 100,
         "PricePerNightMax": 250.3
    },
-   "NumberOfRooms": 3,
    "DateOfReservation": "2023-07-04T13:33:03.969Z",
    "TotalPrice": 130.54 
 }

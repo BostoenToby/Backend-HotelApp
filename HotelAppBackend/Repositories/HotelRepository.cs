@@ -104,7 +104,7 @@ public class HotelRepository : IHotelRepository
         try
         {
             var filter = Builders<Hotel>.Filter.Eq("Id", hotel.Id);
-            var update = Builders<Hotel>.Update.Set("Name", hotel.Name).Set("City", hotel.City).Set("Address", hotel.Address).Set("Province", hotel.Province).Set("Description", hotel.Description).Set("StarRating", hotel.StarRating).Set("Images", hotel.Images).Set("Longitude", hotel.Longitude).Set("Latitude", hotel.Latitude).Set("PricePerNightMin", hotel.PricePerNightMin).Set("PricePerNightMax", hotel.PricePerNightMax).Set("Reviews", hotel.Reviews);
+            var update = Builders<Hotel>.Update.Set("Name", hotel.Name).Set("City", hotel.City).Set("Address", hotel.Address).Set("Province", hotel.Province).Set("Description", hotel.Description).Set("StarRating", hotel.StarRating).Set("Images", hotel.Images).Set("Longitude", hotel.Longitude).Set("Latitude", hotel.Latitude).Set("PricePerNightMin", hotel.PricePerNightMin).Set("PricePerNightMax", hotel.PricePerNightMax).Set("Reviews", hotel.Reviews).Set("RoomTypes", hotel.RoomTypes).Set("Reservations", hotel.Reservations);
             var result = await _context.HotelsCollection.UpdateOneAsync(filter, update);
             return await GetHotelById(hotel.Id);
         }

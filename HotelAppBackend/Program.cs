@@ -38,7 +38,8 @@ app.MapGet("/hotels/Filter/StarRating={StarRating}&PricePerNightMin={PricePerNig
 app.MapGet("/hotels/Region/Filter/Region={Region}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}&StarRating={StarRating}", async(IHotelService hotelService, string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await hotelService.GetHotelsByRegionAndFilter(Region, PricePerNightMin, PricePerNightMax, StarRating));
 app.MapGet("/roomtypes", async (IHotelService hotelService) => await hotelService.GetAllRoomTypes());
 app.MapGet("/roomtype/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetRoomTypeById(Id));
-app.MapGet("/roomtypes/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetRoomTypesByNamePiece(NamePiece));
+app.MapGet("/roomtypes/roomname/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetRoomTypesByNamePiece(NamePiece));
+app.MapGet("/roomtypes/hotelname/{HotelName}", async(IHotelService hotelService, string HotelName) => await hotelService.GetRoomTypesByHotelNamePiece(HotelName));
 app.MapGet("/reservations", async (IHotelService hotelService) => await hotelService.GetAllReservations());
 app.MapGet("/reservations/Name={Name}&FirstName={FirstName}", async (IHotelService hotelService, string Name, string FirstName) => await hotelService.GetReservationsByName(Name, FirstName));
 app.MapGet("/reservation/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetReservationById(Id));
@@ -46,6 +47,7 @@ app.MapGet("/reviews", async (IHotelService hotelService) => await hotelService.
 app.MapGet("/reviews/{Author}", async (IHotelService hotelService, string Author) => await hotelService.GetReviewsByAuthor(Author));
 app.MapGet("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetReviewById(Id));
 app.MapGet("/reviews/hotel/{HotelName}", async(IHotelService hotelService, string hotelName) => await hotelService.GetReviewsByHotel(hotelName));
+
 app.MapPost("/hotel", async (IHotelService hotelService, IValidator<Hotel> validator, Hotel hotel) =>
 {
     var validatorResult = validator.Validate(hotel);
@@ -88,11 +90,6 @@ app.MapPost("/reservation", async (IHotelService hotelService, IValidator<Reserv
         return Results.BadRequest(errors);
     }
 });
-// app.MapPost("/reservation", async (IHotelService hotelService, Reservation reservation) =>
-// {
-//     await hotelService.AddReservation(reservation);
-//     return Results.Created($"The reservation from {reservation.Name} has been added to the database", reservation);
-// });
 
 app.MapPost("/review", async (IHotelService hotelService, IValidator<Review> validator, Review review) =>
 {

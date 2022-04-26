@@ -32,7 +32,6 @@ public class Mutation
             BirthDate = input.BirthDate,
             EMail = input.EMail,
             Hotel = input.hotel,
-            NumberOfRooms = input.NumberOfRooms,
             DateOfReservation = input.DateOfReservation,
             Review = input.review,
             TotalPrice = input.TotalPrice
@@ -95,7 +94,6 @@ public class Mutation
             BirthDate = input.BirthDate,
             EMail = input.EMail,
             Hotel = input.hotel,
-            NumberOfRooms = input.NumberOfRooms,
             DateOfReservation = input.DateOfReservation,
             Review = input.review,
             TotalPrice = input.TotalPrice

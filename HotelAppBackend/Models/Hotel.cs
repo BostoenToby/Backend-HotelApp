@@ -19,4 +19,6 @@ public class Hotel
     public decimal PricePerNightMax { get; set; }
     public float Rating { get; set; }
     public List<Review>? Reviews { get; set; }
+    public List<RoomType>? RoomTypes { get; set; }
+    public List<Reservation>? Reservations { get; set; }
 }

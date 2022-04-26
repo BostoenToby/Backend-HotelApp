@@ -11,8 +11,8 @@ public class Reservation
     public DateTime BirthDate { get; set; }
     public string EMail { get; set; }
     public Hotel Hotel { get; set; }
-    public int NumberOfRooms { get; set; }
     public DateTime DateOfReservation { get; set; }
     public Review? Review { get; set; }
     public double TotalPrice { get; set; }
+    public RoomType RoomType { get; set; }
 }

@@ -20,15 +20,16 @@ public interface IHotelService
     Task<List<Hotel>> GetHotelsByRegion(string Region);
     Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
     Task<Reservation> GetReservationById(string Id);
-    Task<List<Reservation>> GetReservationsByFilter(string HotelName, int NumberOfRooms, DateTime DateOfReservation);
+    Task<List<Reservation>> GetReservationsByFilter(string HotelName, DateTime DateOfReservation);
     Task<List<Reservation>> GetReservationsByName(string Name, string FirstName);
     Task<List<Reservation>> GetReservationsByRegion(string Region);
-    Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, int NumberOfRooms, DateTime DateOfReservation);
+    Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, DateTime DateOfReservation);
     Task<Review> GetReviewById(string Id);
     Task<List<Review>> GetReviewsByAuthor(string Author);
     Task<List<Review>> GetReviewsByHotel(string hotelName);
     Task<RoomType> GetRoomTypeById(string Id);
     Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
+    Task<List<RoomType>> GetRoomTypesByHotelNamePiece(string HotelName);
     Task<List<RoomType>> GetRoomTypesByNamePiece(string NamePiece);
     Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<Hotel> UpdateHotel(Hotel hotel);
@@ -68,6 +69,7 @@ public class HotelService : IHotelService
     public async Task<List<RoomType>> GetRoomTypesByNamePiece(string NamePiece) => await _roomTypeRepository.GetRoomTypesByNamePiece(NamePiece);
     public async Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _roomTypeRepository.GetRoomTypesByFilter(NumberOfBeds, SquareMeters, Television, Breakfast, Airco, Wifi, View);
     public async Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _roomTypeRepository.GetRoomTypesByNamePieceAndFilter(NamePiece, NumberOfBeds, SquareMeters, Television, Breakfast, Airco, Wifi, View);
+    public async Task<List<RoomType>> GetRoomTypesByHotelNamePiece(string HotelName) => await _roomTypeRepository.GetRoomTypesByHotelNamePiece(HotelName);
     public async Task<RoomType> GetRoomTypeById(string Id) => await _roomTypeRepository.GetRoomTypeById(Id);
     public async Task<RoomType> AddRoomType(RoomType roomType) => await _roomTypeRepository.AddRoomType(roomType);
     public async Task<RoomType> UpdateRoomType(RoomType roomType) => await _roomTypeRepository.UpdateRoomType(roomType);
@@ -77,8 +79,8 @@ public class HotelService : IHotelService
     public async Task<List<Reservation>> GetAllReservations() => await _reservationRepository.GetAllReservations();
     public async Task<List<Reservation>> GetReservationsByName(string Name, string FirstName) => await _reservationRepository.GetReservationsByName(Name, FirstName);
     public async Task<List<Reservation>> GetReservationsByRegion(string Region) => await _reservationRepository.GetReservationsByRegion(Region);
-    public async Task<List<Reservation>> GetReservationsByFilter(string HotelName, int NumberOfRooms, DateTime DateOfReservation) => await _reservationRepository.GetReservationsByFilter(HotelName, NumberOfRooms, DateOfReservation);
-    public async Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, int NumberOfRooms, DateTime DateOfReservation) => await _reservationRepository.GetReservationsByRegionAndFilter(Region, HotelName, NumberOfRooms, DateOfReservation);
+    public async Task<List<Reservation>> GetReservationsByFilter(string HotelName, DateTime DateOfReservation) => await _reservationRepository.GetReservationsByFilter(HotelName, DateOfReservation);
+    public async Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, DateTime DateOfReservation) => await _reservationRepository.GetReservationsByRegionAndFilter(Region, HotelName, DateOfReservation);
     public async Task<Reservation> GetReservationById(string Id) => await _reservationRepository.GetReservationById(Id);
     public async Task<Reservation> AddReservation(Reservation newReservation) => await _reservationRepository.AddReservation(newReservation);
     public async Task<Reservation> UpdateReservation(Reservation reservation) => await _reservationRepository.UpdateReservation(reservation);

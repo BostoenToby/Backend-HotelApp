@@ -7,7 +7,6 @@ public class ReservationValidator : AbstractValidator<Reservation>
         RuleFor(p => p.BirthDate).NotEmpty().Must(ValidDate).LessThan(DateTime.Now).WithMessage("The birthdate must be valid and be in the past");
         RuleFor(p => p.EMail).NotEmpty().MinimumLength(7).EmailAddress().WithMessage("The email must be at least 7 characters long");
         RuleFor(p => p.Hotel).NotEmpty().Must(ValidHotel).WithMessage("The hotel must be a valid object of a hotel");
-        RuleFor(p => p.NumberOfRooms).NotEmpty().GreaterThanOrEqualTo(1).WithMessage("The number of rooms must at least be 1");
         RuleFor(p => p.DateOfReservation).NotEmpty().Must(ValidDate).GreaterThanOrEqualTo(p => DateTime.Now).WithMessage("The date of reservation must be a valid date and be in the future");
         When(p => p.Review != null, () => {RuleFor(p => p.Review).Must(ValidReview).WithMessage("The list of reviews must be valid");});
         RuleFor(p => p.TotalPrice).NotEmpty().GreaterThan(0).WithMessage("The total price of the reservation must be greater than €0");

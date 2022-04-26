@@ -14,4 +14,6 @@ public class RoomType
     public bool Airco { get; set; }
     public bool Wifi { get; set; }
     public bool View { get; set; }
+    public double Price { get; set; }
+    public string HotelName { get; set; }
 }
