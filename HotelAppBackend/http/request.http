@@ -13,7 +13,7 @@ Content-Type: application/json
 ###
 
 GET http://0.0.0.0:3000/hotels HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZ2l2ZW5fbmFtZSI6IkJvc3RvZW4gVG9ieSIsImNpdHkiOiJLb3J0cmlqayIsIm5iZiI6MTY1MDk5NTgzNCwiZXhwIjoxNjUwOTk5NDM0LCJpc3MiOiJodHRwczovLzAuMC4wLjA6MzAwMCIsImF1ZCI6ImhvdGVsX2FwaV91c2VycyJ9.vwJzEKUNmwASFTsDkBxLt4CAYI-3VwErqsz3uc7VZRs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZ2l2ZW5fbmFtZSI6IkJvc3RvZW4gVG9ieSIsImNpdHkiOiJLb3J0cmlqayIsIm5iZiI6MTY1MTAwMDY1NCwiZXhwIjoxNjU0NjAwNjU0LCJpc3MiOiJodHRwczovLzAuMC4wLjA6MzAwMCIsImF1ZCI6ImhvdGVsX2FwaV91c2VycyJ9.BbdNqSKvyECEsKbv7hDhEjIDdYtd_wA3biuKOLMdY0k
 
 ###
 
@@ -38,6 +38,10 @@ GET http://0.0.0.0:3000/hotels/Region/Brussel
 ###
 
 GET http://0.0.0.0:3000/hotels/Region/Filter/Region=Brussel&PricePerNightMin=10&PricePerNightMax=2000&StarRating=3
+
+###
+
+GET http://0.0.0.0:3000/hotel/roomtype/Id=62684574ec5c021db57ff782&NumberOfBeds=2&SquareMeters=20&PriceMax=500&PriceMin=0&Television=true&Breakfast=false&Airco=false&Wifi=false&View=false
 
 ###
 

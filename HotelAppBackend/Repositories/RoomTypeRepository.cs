@@ -6,10 +6,10 @@ public interface IRoomTypeRepository
     Task<string> DeleteRoomType(string Id);
     Task<List<RoomType>> GetAllRoomTypes();
     Task<RoomType> GetRoomTypeById(string Id);
-    Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
+    Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<List<RoomType>> GetRoomTypesByHotelNamePiece(string HotelName);
     Task<List<RoomType>> GetRoomTypesByNamePiece(string NamePiece);
-    Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
+    Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<RoomType> UpdateRoomType(RoomType roomType);
 }
 
@@ -37,17 +37,41 @@ public class RoomTypeRepository : IRoomTypeRepository
         }
         return ApprovedRoomTypes;
     }
-    public async Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View)
+    public async Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View)
     {
         List<RoomType> allRoomTypes = await GetAllRoomTypes();
         List<RoomType> chosenRoomTypes = new List<RoomType>();
-        foreach (RoomType roomType in allRoomTypes) //scenario where all parameters are filled in
-            if (roomType.NumberOfBeds >= NumberOfBeds && roomType.SquareMeters >= SquareMeters && roomType.Television == Television && roomType.Breakfast == Breakfast && roomType.Airco == Airco && roomType.Wifi == Wifi && roomType.View == View)
+        foreach (RoomType roomType in allRoomTypes.ToList())
+        {
+            if (roomType.NumberOfBeds >= NumberOfBeds && roomType.SquareMeters >= SquareMeters && roomType.Price <= PriceMax && roomType.Price >= PriceMin)
                 chosenRoomTypes.Add(roomType);
-
+        }
+        foreach (RoomType roomType in chosenRoomTypes.ToList())
+        {
+            if (Television == true && roomType.Television != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Breakfast == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Airco == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Wifi == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (View == true && roomType.View != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+        }
         return chosenRoomTypes;
     }
-    public async Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View)
+    public async Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View)
     {
         List<RoomType> AllRoomTypes = await GetAllRoomTypes();
         List<RoomType> RoomTypesName = new List<RoomType>();
@@ -60,9 +84,35 @@ public class RoomTypeRepository : IRoomTypeRepository
                 RoomTypesName.Add(roomType);
             }
         }
-        foreach (RoomType roomType in RoomTypesName)
-            if (roomType.NumberOfBeds == NumberOfBeds && roomType.SquareMeters >= SquareMeters && roomType.Television == Television && roomType.Breakfast == Breakfast && roomType.Airco == Airco && roomType.Wifi == Wifi && roomType.View == View)
+
+        foreach (RoomType roomType in RoomTypesName.ToList())
+        {
+            if (roomType.NumberOfBeds >= NumberOfBeds && roomType.SquareMeters >= SquareMeters && roomType.Price <= PriceMax && roomType.Price >= PriceMin)
                 chosenRoomTypes.Add(roomType);
+        }
+        foreach (RoomType roomType in chosenRoomTypes.ToList())
+        {
+            if (Television == true && roomType.Television != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Breakfast == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Airco == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Wifi == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (View == true && roomType.View != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+        }
         return chosenRoomTypes;
     }
     public async Task<List<RoomType>> GetRoomTypesByHotelNamePiece(string HotelName)

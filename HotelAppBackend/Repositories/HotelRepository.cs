@@ -6,7 +6,8 @@ public interface IHotelRepository
     Task<string> DeleteHotel(string Id);
     Task<List<Hotel>> GetAllHotels();
     Task<Hotel> GetHotelById(string Id);
-    Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin = 0, decimal PricePerNightMax = 1000000, float StarRating = -1);
+    Task<List<RoomType>> GetHotelRoomTypesByFilterAndId(string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
+    Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
     Task<List<Hotel>> GetHotelsByNamePiece(string NamePiece);
     Task<List<Hotel>> GetHotelsByRegion(string Region);
     Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
@@ -40,9 +41,9 @@ public class HotelRepository : IHotelRepository
     {
         List<Hotel> allHotels = await _context.HotelsCollection.Find<Hotel>(_ => true).ToListAsync();
         List<Hotel> approvedHotels = new List<Hotel>();
-        foreach(Hotel hotel in allHotels)
-        if(hotel.Name.Contains(NamePiece))
-        approvedHotels.Add(hotel);
+        foreach (Hotel hotel in allHotels)
+            if (hotel.Name.Contains(NamePiece))
+                approvedHotels.Add(hotel);
         return approvedHotels;
     }
 
@@ -55,21 +56,21 @@ public class HotelRepository : IHotelRepository
         // this will include all the hotels
         List<Hotel> allHotels = await GetAllHotels();
         List<Hotel> chosenHotels = new List<Hotel>();
-        foreach(Hotel hotel in allHotels)
-        if(PricePerNightMin <= hotel.PricePerNightMin)
-        if(PricePerNightMax >= hotel.PricePerNightMax)
-        if(StarRating <= hotel.StarRating)
-        chosenHotels.Add(hotel);
+        foreach (Hotel hotel in allHotels)
+            if (PricePerNightMin <= hotel.PricePerNightMin)
+                if (PricePerNightMax >= hotel.PricePerNightMax)
+                    if (StarRating <= hotel.StarRating)
+                        chosenHotels.Add(hotel);
         return chosenHotels;
     }
 
     public async Task<List<Hotel>> GetHotelsByRegion(string Region)
     {
         List<Hotel> chosenHotels = new List<Hotel>();
-        if(Provinces.Contains(Region))
-        chosenHotels = await _context.HotelsCollection.Find(c => c.Province == Region).ToListAsync();
+        if (Provinces.Contains(Region))
+            chosenHotels = await _context.HotelsCollection.Find(c => c.Province == Region).ToListAsync();
         else
-        chosenHotels = await _context.HotelsCollection.Find(c => c.City == Region).ToListAsync();
+            chosenHotels = await _context.HotelsCollection.Find(c => c.City == Region).ToListAsync();
         return chosenHotels;
     }
 
@@ -77,18 +78,52 @@ public class HotelRepository : IHotelRepository
     {
         List<Hotel> chosenHotelsRegion = new List<Hotel>();
         List<Hotel> chosenHotels = new List<Hotel>();
-        if(Provinces.Contains(Region))
-        chosenHotelsRegion = await _context.HotelsCollection.Find(c => c.Province == Region).ToListAsync();
+        if (Provinces.Contains(Region))
+            chosenHotelsRegion = await _context.HotelsCollection.Find(c => c.Province == Region).ToListAsync();
         else
-        chosenHotelsRegion = await _context.HotelsCollection.Find(c => c.City == Region).ToListAsync();
-        foreach(Hotel hotel in chosenHotelsRegion)
-        if(PricePerNightMin <= hotel.PricePerNightMin)
-        if(PricePerNightMax >= hotel.PricePerNightMax)
-        if(StarRating <= hotel.StarRating)
-        chosenHotels.Add(hotel);
+            chosenHotelsRegion = await _context.HotelsCollection.Find(c => c.City == Region).ToListAsync();
+        foreach (Hotel hotel in chosenHotelsRegion)
+            if (PricePerNightMin <= hotel.PricePerNightMin)
+                if (PricePerNightMax >= hotel.PricePerNightMax)
+                    if (StarRating <= hotel.StarRating)
+                        chosenHotels.Add(hotel);
         return chosenHotels;
     }
 
+    public async Task<List<RoomType>> GetHotelRoomTypesByFilterAndId(string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View)
+    {
+        Hotel chosenHotel = await GetHotelById(Id);
+        List<RoomType> chosenRoomTypes = new List<RoomType>();
+        foreach (RoomType roomType in chosenHotel.RoomTypes.ToList())
+        {
+            if (roomType.NumberOfBeds >= NumberOfBeds && roomType.SquareMeters >= SquareMeters && roomType.Price <= PriceMax && roomType.Price >= PriceMin)
+            chosenRoomTypes.Add(roomType);
+        }
+        foreach (RoomType roomType in chosenRoomTypes.ToList())
+        {
+            if (Television == true && roomType.Television != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Breakfast == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Airco == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (Wifi == true && roomType.Breakfast != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+            if (View == true && roomType.View != true)
+            {
+                chosenRoomTypes.Remove(roomType);
+            }
+        }
+        return chosenRoomTypes;
+    }
     public async Task<Hotel> GetHotelById(string Id) => await _context.HotelsCollection.Find<Hotel>(c => c.Id == Id).FirstOrDefaultAsync();
 
     //POST

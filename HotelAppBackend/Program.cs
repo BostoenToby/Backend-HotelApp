@@ -57,10 +57,12 @@ app.MapGet("/hotels/{NamePiece}", async (IHotelService hotelService, string Name
 app.MapGet("/hotels/Region/{Region}", async(IHotelService hotelService, string Region) => await hotelService.GetHotelsByRegion(Region));
 app.MapGet("/hotels/Filter/StarRating={StarRating}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}", async(IHotelService hotelService, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await hotelService.GetHotelsByFilter(PricePerNightMin, PricePerNightMax, StarRating));
 app.MapGet("/hotels/Region/Filter/Region={Region}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}&StarRating={StarRating}", async(IHotelService hotelService, string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await hotelService.GetHotelsByRegionAndFilter(Region, PricePerNightMin, PricePerNightMax, StarRating));
+app.MapGet("/hotel/roomtype/Id={Id}&NumberOfBeds={NumberOfBeds}&SquareMeters={SquareMeters}&PriceMax={PriceMax}&PriceMin={PriceMin}&Television={Television}&Breakfast={Breakfast}&Airco={Airco}&Wifi={Wifi}&View={View}", async(IHotelService hotelService, string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await hotelService.GetHotelRoomTypesByFilterAndId(Id, NumberOfBeds, SquareMeters, PriceMax, PriceMin, Television, Breakfast, Airco, Wifi, View));
 app.MapGet("/roomtypes", async (IHotelService hotelService) => await hotelService.GetAllRoomTypes());
 app.MapGet("/roomtype/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetRoomTypeById(Id));
 app.MapGet("/roomtypes/roomname/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetRoomTypesByNamePiece(NamePiece));
 app.MapGet("/roomtypes/hotelname/{HotelName}", async(IHotelService hotelService, string HotelName) => await hotelService.GetRoomTypesByHotelNamePiece(HotelName));
+// TODO: Add the rest of the methods
 app.MapGet("/reservations", async (IHotelService hotelService) => await hotelService.GetAllReservations());
 app.MapGet("/reservations/Name={Name}&FirstName={FirstName}", async (IHotelService hotelService, string Name, string FirstName) => await hotelService.GetReservationsByName(Name, FirstName));
 app.MapGet("/reservation/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetReservationById(Id));

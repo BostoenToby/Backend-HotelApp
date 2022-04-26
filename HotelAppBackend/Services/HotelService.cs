@@ -15,6 +15,7 @@ public interface IHotelService
     Task<List<Review>> GetAllReviews();
     Task<List<RoomType>> GetAllRoomTypes();
     Task<Hotel> GetHotelById(string Id);
+    Task<List<RoomType>> GetHotelRoomTypesByFilterAndId(string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
     Task<List<Hotel>> GetHotelsByNamePiece(string NamePiece);
     Task<List<Hotel>> GetHotelsByRegion(string Region);
@@ -28,10 +29,10 @@ public interface IHotelService
     Task<List<Review>> GetReviewsByAuthor(string Author);
     Task<List<Review>> GetReviewsByHotel(string hotelName);
     Task<RoomType> GetRoomTypeById(string Id);
-    Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
+    Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<List<RoomType>> GetRoomTypesByHotelNamePiece(string HotelName);
     Task<List<RoomType>> GetRoomTypesByNamePiece(string NamePiece);
-    Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
+    Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<Hotel> UpdateHotel(Hotel hotel);
     Task<Reservation> UpdateReservation(Reservation reservation);
     Task<Review> UpdateReview(Review review);
@@ -59,6 +60,7 @@ public class HotelService : IHotelService
     public async Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await _hotelRepository.GetHotelsByFilter(PricePerNightMin, PricePerNightMax, StarRating);
     public async Task<List<Hotel>> GetHotelsByRegion(string Region) => await _hotelRepository.GetHotelsByRegion(Region);
     public async Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await _hotelRepository.GetHotelsByRegionAndFilter(Region, PricePerNightMin, PricePerNightMax, StarRating);
+    public async Task<List<RoomType>> GetHotelRoomTypesByFilterAndId(string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _hotelRepository.GetHotelRoomTypesByFilterAndId(Id, NumberOfBeds, SquareMeters, PriceMax, PriceMin, Television, Breakfast, Airco, Wifi, View);
     public async Task<Hotel> GetHotelById(string Id) => await _hotelRepository.GetHotelById(Id);
     public async Task<Hotel> AddHotel(Hotel newHotel) => await _hotelRepository.AddHotel(newHotel);
     public async Task<Hotel> UpdateHotel(Hotel hotel) => await _hotelRepository.UpdateHotel(hotel);
@@ -67,8 +69,8 @@ public class HotelService : IHotelService
     //RoomType
     public async Task<List<RoomType>> GetAllRoomTypes() => await _roomTypeRepository.GetAllRoomTypes();
     public async Task<List<RoomType>> GetRoomTypesByNamePiece(string NamePiece) => await _roomTypeRepository.GetRoomTypesByNamePiece(NamePiece);
-    public async Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _roomTypeRepository.GetRoomTypesByFilter(NumberOfBeds, SquareMeters, Television, Breakfast, Airco, Wifi, View);
-    public async Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _roomTypeRepository.GetRoomTypesByNamePieceAndFilter(NamePiece, NumberOfBeds, SquareMeters, Television, Breakfast, Airco, Wifi, View);
+    public async Task<List<RoomType>> GetRoomTypesByFilter(int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _roomTypeRepository.GetRoomTypesByFilter(NumberOfBeds, SquareMeters, PriceMax, PriceMin, Television, Breakfast, Airco, Wifi, View);
+    public async Task<List<RoomType>> GetRoomTypesByNamePieceAndFilter(string NamePiece, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _roomTypeRepository.GetRoomTypesByNamePieceAndFilter(NamePiece, NumberOfBeds, PriceMax, PriceMin, SquareMeters, Television, Breakfast, Airco, Wifi, View);
     public async Task<List<RoomType>> GetRoomTypesByHotelNamePiece(string HotelName) => await _roomTypeRepository.GetRoomTypesByHotelNamePiece(HotelName);
     public async Task<RoomType> GetRoomTypeById(string Id) => await _roomTypeRepository.GetRoomTypeById(Id);
     public async Task<RoomType> AddRoomType(RoomType roomType) => await _roomTypeRepository.AddRoomType(roomType);
