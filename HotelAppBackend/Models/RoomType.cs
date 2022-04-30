@@ -16,4 +16,5 @@ public class RoomType
     public bool View { get; set; }
     public double Price { get; set; }
     public string HotelName { get; set; }
+    public string Image { get; set; }
 }

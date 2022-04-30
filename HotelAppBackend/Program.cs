@@ -53,10 +53,12 @@ app.MapGet("/setup", () => "Hello World!");
 
 app.MapGet("/hotels", async (IHotelService hotelService) => await hotelService.GetAllHotels());
 app.MapGet("/hotel/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetHotelById(Id));
-app.MapGet("/hotels/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetHotelsByNamePiece(NamePiece));
+app.MapGet("/hotels/{NamePiece}", [Authorize] async (IHotelService hotelService, string NamePiece) => await hotelService.GetHotelsByNamePiece(NamePiece));
 app.MapGet("/hotels/Region/{Region}", async(IHotelService hotelService, string Region) => await hotelService.GetHotelsByRegion(Region));
 app.MapGet("/hotels/Filter/StarRating={StarRating}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}", async(IHotelService hotelService, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await hotelService.GetHotelsByFilter(PricePerNightMin, PricePerNightMax, StarRating));
 app.MapGet("/hotels/Region/Filter/Region={Region}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}&StarRating={StarRating}", async(IHotelService hotelService, string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await hotelService.GetHotelsByRegionAndFilter(Region, PricePerNightMin, PricePerNightMax, StarRating));
+app.MapGet("/hotels/Filter/Namepiece/PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}&StarRating={StarRating}&Namepiece={Namepiece}", async(IHotelService hotelService, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece) => await hotelService.GetHotelsByFilterAndNamepiece(PricePerNightMin, PricePerNightMax, StarRating, Namepiece));
+app.MapGet("/hotels/Region/Filter/Namepiece/Region={Region}&PricePerNightMin={PricePerNightMin}&PricePerNightMax={PricePerNightMax}&StarRating={StarRating}&Namepiece={Namepiece}", async(IHotelService hotelService, string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece) => await hotelService.GetHotelsByRegionAndFilterAndNamepiece(Region, PricePerNightMin, PricePerNightMax, StarRating, Namepiece));
 app.MapGet("/hotel/roomtype/Id={Id}&NumberOfBeds={NumberOfBeds}&SquareMeters={SquareMeters}&PriceMax={PriceMax}&PriceMin={PriceMin}&Television={Television}&Breakfast={Breakfast}&Airco={Airco}&Wifi={Wifi}&View={View}", async(IHotelService hotelService, string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await hotelService.GetHotelRoomTypesByFilterAndId(Id, NumberOfBeds, SquareMeters, PriceMax, PriceMin, Television, Breakfast, Airco, Wifi, View));
 app.MapGet("/roomtypes", async (IHotelService hotelService) => await hotelService.GetAllRoomTypes());
 app.MapGet("/roomtypes/roomname/{NamePiece}", async (IHotelService hotelService, string NamePiece) => await hotelService.GetRoomTypesByNamePiece(NamePiece));
@@ -65,10 +67,9 @@ app.MapGet("/roomtypes/filter/NumberOfBeds={NumberOfBeds}&SquareMeters={SquareMe
 app.MapGet("/roomtypes/namepiece/filter/NamePiece={NamePiece}&NumberOfBeds={NumberOfBeds}&SquareMeters={SquareMeters}&PriceMax={PriceMax}&PriceMin={PriceMin}&Television={Television}&Breakfast={Breakfast}&Airco={Airco}&Wifi={Wifi}&View={View}", async(IHotelService hotelService, string NamePiece, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await hotelService.GetRoomTypesByNamePieceAndFilter(NamePiece, NumberOfBeds, SquareMeters, PriceMax, PriceMin, Television, Breakfast, Airco, Wifi, View));
 app.MapGet("/roomtype/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetRoomTypeById(Id));
 app.MapGet("/reservations", async (IHotelService hotelService) => await hotelService.GetAllReservations());
+app.MapGet("/reservations/Mail={Mail}", async(IHotelService hotelService, string Mail) => await hotelService.GetReservationsByMail(Mail));
 app.MapGet("/reservations/Name={Name}&FirstName={FirstName}", async (IHotelService hotelService, string Name, string FirstName) => await hotelService.GetReservationsByName(Name, FirstName));
-app.MapGet("/reservations/Filter/HotelName={HotelName}&DateOfReservation={DateOfReservation}", async(IHotelService hotelService, string HotelName, DateTime DateOfReservation) => await hotelService.GetReservationsByFilter(HotelName, DateOfReservation));
-app.MapGet("/reservations/Region/{Region}", async(IHotelService hotelService, string Region) => await hotelService.GetReservationsByRegion(Region));
-app.MapGet("/reservations/Region/Filter/Region={Region}&HotelName={HotelName}&DateOfReservation={DateOfReservation}", async(IHotelService hotelService, string Region, string HotelName, DateTime DateOfReservation) => await hotelService.GetReservationsByRegionAndFilter(Region, HotelName, DateOfReservation));
+app.MapGet("/reservations/Filter/HotelName={HotelName}&IncheckDate={IncheckDate}&OutcheckDate={OutcheckDate}", async(IHotelService hotelService, string HotelName, string IncheckDate, string OutcheckDate) => await hotelService.GetReservationsByFilter(HotelName, IncheckDate, OutcheckDate));
 app.MapGet("/reservation/{Id}", async (IHotelService hotelService, string Id) => await hotelService.GetReservationById(Id));
 app.MapGet("/reviews", async (IHotelService hotelService) => await hotelService.GetAllReviews());
 app.MapGet("/reviews/{Author}", async (IHotelService hotelService, string Author) => await hotelService.GetReviewsByAuthor(Author));
@@ -137,7 +138,7 @@ app.MapPost("/reservation", async (IHotelService hotelService, IValidator<Reserv
     if (validatorResult.IsValid)
     {
         await hotelService.AddReservation(reservation);
-        return Results.Created($"The reservation from {reservation.Name} has been added to the database", reservation);
+        return Results.Created($"The reservation from {reservation.LastName} has been added to the database", reservation);
     }
     else
     {
@@ -195,7 +196,7 @@ app.MapPut("/reservation", async (IHotelService hotelService, IValidator<Reserva
     if (validatorResult.IsValid)
     {
         await hotelService.UpdateReservation(reservation);
-        return Results.Created($"The reservation from {reservation.Name} has been updated to the database", reservation);
+        return Results.Created($"The reservation from {reservation.LastName} has been updated to the database", reservation);
     }
     else
     {
@@ -224,6 +225,6 @@ app.MapDelete("/reservation/{Id}", async (IHotelService hotelService, string Id)
 app.MapDelete("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReview(Id));
 
 // app.Run("http://0.0.0.0:3000");
-// app.Run("http://localhost:3000");
-app.Run();
-public partial class Program { }
+app.Run("http://localhost:3000");
+// app.Run();
+// public partial class Program { }

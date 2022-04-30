@@ -166,4 +166,51 @@ public class FakeHotelRepository : IHotelRepository
     }
 
     public static void AddFakeHotel(Hotel fakeHotel) => _hotels.Add(fakeHotel);
+
+    public Task<List<Hotel>> GetHotelsByFilterAndNamepiece(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece)
+    {
+        List<Hotel> chosenHotels = new List<Hotel>();
+        foreach(Hotel hotel in _hotels){
+            if(PricePerNightMin <= hotel.PricePerNightMin)
+                if(PricePerNightMax >= hotel.PricePerNightMax)
+                    if(StarRating <= hotel.StarRating)
+                        chosenHotels.Add(hotel);
+        }
+        foreach(Hotel hotel in chosenHotels){
+            if(!hotel.Name.Contains(Namepiece))
+                chosenHotels.Remove(hotel);
+        }
+
+        return Task.FromResult(chosenHotels);
+    }
+
+    public Task<List<Hotel>> GetHotelsByRegionAndFilterAndNamepiece(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece)
+    {
+        List<Hotel> chosenHotelsRegion = new List<Hotel>();
+        List<Hotel> chosenHotels = new List<Hotel>();
+        if(Provinces.Contains(Region)){
+            foreach(Hotel hotel in _hotels){
+                if(hotel.Province.Contains(Region)){
+                    chosenHotelsRegion.Add(hotel);
+                }
+            }
+        } else {
+            foreach(Hotel hotel in _hotels){
+                if(hotel.City.Contains(Region)){
+                    chosenHotelsRegion.Add(hotel);
+                }
+            }
+        }
+        foreach(Hotel hotel in chosenHotelsRegion){
+            if(PricePerNightMin <= hotel.PricePerNightMin)
+                if(PricePerNightMax >= hotel.PricePerNightMax)
+                    if(StarRating <= hotel.StarRating)
+                        chosenHotels.Add(hotel);
+        }
+        foreach(Hotel hotel in chosenHotels){
+            if(!hotel.Name.Contains(Namepiece))
+                chosenHotels.Remove(hotel);
+        }
+        return Task.FromResult(chosenHotels);
+    }
 }

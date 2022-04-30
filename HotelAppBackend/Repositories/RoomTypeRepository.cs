@@ -145,7 +145,7 @@ public class RoomTypeRepository : IRoomTypeRepository
         try
         {
             var filter = Builders<RoomType>.Filter.Eq("Id", roomType.Id);
-            var update = Builders<RoomType>.Update.Set("Name", roomType.Name).Set("NumberOfBeds", roomType.NumberOfBeds).Set("SquareMeters", roomType.SquareMeters).Set("Television", roomType.Television).Set("Breakfast", roomType.Breakfast).Set("Airco", roomType.Airco).Set("Wifi", roomType.Wifi).Set("View", roomType.View).Set("HotelName", roomType.HotelName);
+            var update = Builders<RoomType>.Update.Set("Name", roomType.Name).Set("NumberOfBeds", roomType.NumberOfBeds).Set("SquareMeters", roomType.SquareMeters).Set("Television", roomType.Television).Set("Breakfast", roomType.Breakfast).Set("Airco", roomType.Airco).Set("Wifi", roomType.Wifi).Set("View", roomType.View).Set("Price", roomType.Price).Set("HotelName", roomType.HotelName).Set("Image", roomType.Image);
             var result = await _context.RoomTypeCollection.UpdateOneAsync(filter, update);
             return await GetRoomTypeById(roomType.Id);
         }

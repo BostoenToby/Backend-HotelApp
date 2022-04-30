@@ -69,8 +69,24 @@ public class IntegrationTests
             Longitude = 1.234567M,
             Latitude = 1.234567M,
             PricePerNightMin = 50.56M,
-            PricePerNightMax = 500.98M
+            PricePerNightMax = 500.98M,
+            Image = "https://cf.bstatic.com/xdata/images/hotel/square600/335587995.webp?k=e52822ba4a04d4b4bf57c425cfca110c4e162fdcf4351efbd3b9f07c3b234a5e&o=&s=1",
+            RoomTypes = new List<RoomType>()
         };
+        var roomType = new RoomType(){
+            Name =  "Presidential",
+            NumberOfBeds = 2,
+            SquareMeters = 50,
+            Television = true,
+            Breakfast = true,
+            Airco = true,
+            Wifi = true,
+            View = true,
+            Price = 210,
+            HotelName = "Neptunus",
+            Image = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/350348570.jpg?k=b09a56f8c5af3a67ada5f08fb7ef7a4b22a0b8cb8d01b32ba0cb77b00bf5e256&o="
+        };
+        newHotel.RoomTypes.Add(roomType);
         var result = await client.PostAsJsonAsync("/hotel", newHotel);
         Assert.NotNull(result.Headers.Location);
         result.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -83,25 +99,14 @@ public class IntegrationTests
         var client = application.CreateClient();
         var newReservation = new Reservation()
         {
-            Name = "Someone2",
-            FirstName = "Random",
-            BirthDate = DateTime.Parse("2002-07-04T13:33:03.969Z"),
-            EMail = "random.someone@gmail.com",
-            DateOfReservation = DateTime.Parse("2023-08-05T14:34:04.979Z"),
-            TotalPrice = 480.89
-        };
-        newReservation.Hotel = new Hotel()
-        {
-            Name = "Ibis Hotel2.0",
-            City = "Brussel",
-            Address = "Brusselstraat 123",
-            Province = "Brussel",
-            Description = "It's a nice hotel",
-            StarRating = 4.5F,
-            Longitude = 1.234567M,
-            Latitude = 1.234567M,
-            PricePerNightMin = 150.89M,
-            PricePerNightMax = 500.47M,
+            LastName = "Post",
+            FirstName = "Pieter",
+            Mail = "pieter.post@gmail.com",
+            HotelName = "Ibis hotel",
+            IncheckDate = "2022-05-02",
+            OutcheckDate = "2022-05-04",
+            Price = 134.56,
+            RoomTypeName = "Presidential"
         };
         var result = await client.PostAsJsonAsync("/reservation", newReservation);
         Console.WriteLine(result);
@@ -116,9 +121,11 @@ public class IntegrationTests
         var client = application.CreateClient();
         var newReview = new Review()
         {
-            Author = "SomeoneRandom",
-            StarRating = 4.7,
-            ReviewDescription = "It was a nice stay at the hotel"
+            Author =  "Stewart",
+            HotelName = "Ter Brughe",
+            StarRating = 4.5,
+            Image =  "https://cf.bstatic.com/static/img/review/avatars/ava-s/d321d61d78a8fa310843e1967dca38e6276b92aa.png",
+            ReviewDescription = "They where friendly and the breakfast was nice. Good location."
         };
         var result = await client.PostAsJsonAsync("/review", newReview);
         Assert.NotNull(result.Headers.Location);
@@ -139,11 +146,51 @@ public class IntegrationTests
             Breakfast = true,
             Airco = true,
             Wifi = true,
-            View = true
+            View = true,
+            Price = 99,
+            HotelName = "Neptunus",
+            Image = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/350348631.jpg?k=2c3236726e2f72dd1aa2b25395bd3c4f650c7f467c1ecb8e80852f867f32862e&o="
         };
         var result = await client.PostAsJsonAsync("/roomtype", newRoomType);
         Assert.NotNull(result.Headers.Location);
         result.StatusCode.Should().Be(HttpStatusCode.Created);
+    }
+
+    [Fact]
+    public async Task Should_Return_BadRequest_Hotel()
+    {
+        var application = Helper.CreateApi();
+        var client = application.CreateClient();
+        var newHotel = new Hotel()
+        {
+            Name = "Hi",
+            City = "Brussel",
+            Address = "Brusselsteenweg 321",
+            Province = "Brussel",
+            StarRating = 3.5F,
+            Longitude = 1.234567M,
+            Latitude = 1.234567M,
+            PricePerNightMin = 50.56M,
+            PricePerNightMax = 500.98M,
+            Image = "https://cf.bstatic.com/xdata/images/hotel/square600/335587995.webp?k=e52822ba4a04d4b4bf57c425cfca110c4e162fdcf4351efbd3b9f07c3b234a5e&o=&s=1",
+            RoomTypes = new List<RoomType>()
+        };
+        var roomType = new RoomType(){
+            Name =  "Presidential",
+            NumberOfBeds = 2,
+            SquareMeters = 50,
+            Television = true,
+            Breakfast = true,
+            Airco = true,
+            Wifi = true,
+            View = true,
+            Price = 210,
+            HotelName = "Neptunus",
+            Image = "https://cf.bstatic.com/xdata/images/hotel/max1024x768/350348570.jpg?k=b09a56f8c5af3a67ada5f08fb7ef7a4b22a0b8cb8d01b32ba0cb77b00bf5e256&o="
+        };
+        newHotel.RoomTypes.Add(roomType);
+        var result = await client.PostAsJsonAsync("/hotel", newHotel);
+        result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }
 
 }

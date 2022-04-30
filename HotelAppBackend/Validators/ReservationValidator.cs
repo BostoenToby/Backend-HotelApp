@@ -2,27 +2,13 @@ public class ReservationValidator : AbstractValidator<Reservation>
 {
     public ReservationValidator()
     {
-        RuleFor(p => p.Name).NotEmpty().MinimumLength(2).WithMessage("The name of the person must me at least 2 characters long");
+        RuleFor(p => p.LastName).NotEmpty().MinimumLength(2).WithMessage("The name of the person must me at least 2 characters long");
         RuleFor(p => p.FirstName).NotEmpty().MinimumLength(2).WithMessage("The firstname of the person must be at least 2 characters long");
-        RuleFor(p => p.BirthDate).NotEmpty().Must(ValidDate).LessThan(DateTime.Now).WithMessage("The birthdate must be valid and be in the past");
-        RuleFor(p => p.EMail).NotEmpty().MinimumLength(7).EmailAddress().WithMessage("The email must be at least 7 characters long");
-        RuleFor(p => p.Hotel).NotEmpty().Must(ValidHotel).WithMessage("The hotel must be a valid object of a hotel");
-        RuleFor(p => p.DateOfReservation).NotEmpty().Must(ValidDate).GreaterThanOrEqualTo(p => DateTime.Now).WithMessage("The date of reservation must be a valid date and be in the future");
-        When(p => p.Review != null, () => {RuleFor(p => p.Review).Must(ValidReview).WithMessage("The list of reviews must be valid");});
-        RuleFor(p => p.TotalPrice).NotEmpty().GreaterThan(0).WithMessage("The total price of the reservation must be greater than €0");
-    }
-
-    private bool ValidDate(DateTime date)
-    {
-        return !date.Equals(default(DateTime));
-    }
-
-    private bool ValidHotel(Hotel hotel)
-    {
-        return !hotel.Equals(default(Hotel));
-    }
-
-    private bool ValidReview(Review review){
-        return !review.Equals(default(Review));
+        RuleFor(p => p.Mail).NotEmpty().MinimumLength(7).EmailAddress().WithMessage("The email must be at least 7 characters long");
+        RuleFor(p => p.HotelName).NotEmpty().WithMessage("The hotel name must be a string and not empty");
+        RuleFor(p => p.IncheckDate).NotEmpty().WithMessage("Make sure that there is an incheck date.");
+        RuleFor(p => p.OutcheckDate).NotEmpty().WithMessage("Make sure that there is an outcheck date.");
+        RuleFor(p => p.RoomTypeName).NotEmpty().MinimumLength(3).WithMessage("The roomTypeName must be valid"); 
+        RuleFor(p => p.Price).NotEmpty().GreaterThan(0).WithMessage("The total price of the reservation must be greater than €0");
     }
 }

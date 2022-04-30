@@ -22,7 +22,7 @@ public class ReviewRepository : IReviewRepository
     //GET
     public async Task<List<Review>> GetAllReviews() => await _context.ReviewsCollection.Find<Review>(_ => true).ToListAsync();
     public async Task<List<Review>> GetReviewsByAuthor(string Author) => await _context.ReviewsCollection.Find<Review>(c => c.Author == Author).ToListAsync();
-    public async Task<List<Review>> GetReviewsByHotel(string hotelName) => await _context.ReviewsCollection.Find<Review>(c => c.HotelName == hotelName).ToListAsync();
+    public async Task<List<Review>> GetReviewsByHotel(string hotelName) => await _context.ReviewsCollection.Find<Review>(c => c.HotelName.Contains(hotelName)).ToListAsync();
     public async Task<Review> GetReviewById(string Id) => await _context.ReviewsCollection.Find<Review>(c => c.Id == Id).FirstOrDefaultAsync();
 
     //POST

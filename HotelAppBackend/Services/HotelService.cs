@@ -17,14 +17,15 @@ public interface IHotelService
     Task<Hotel> GetHotelById(string Id);
     Task<List<RoomType>> GetHotelRoomTypesByFilterAndId(string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View);
     Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
+    Task<List<Hotel>> GetHotelsByFilterAndNamepiece(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece);
     Task<List<Hotel>> GetHotelsByNamePiece(string NamePiece);
     Task<List<Hotel>> GetHotelsByRegion(string Region);
     Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating);
+    Task<List<Hotel>> GetHotelsByRegionAndFilterAndNamepiece(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece);
     Task<Reservation> GetReservationById(string Id);
-    Task<List<Reservation>> GetReservationsByFilter(string HotelName, DateTime DateOfReservation);
+    Task<List<Reservation>> GetReservationsByFilter(string HotelName, string IncheckDate, string OutcheckDate);
+    Task<List<Reservation>> GetReservationsByMail(string Mail);
     Task<List<Reservation>> GetReservationsByName(string Name, string FirstName);
-    Task<List<Reservation>> GetReservationsByRegion(string Region);
-    Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, DateTime DateOfReservation);
     Task<Review> GetReviewById(string Id);
     Task<List<Review>> GetReviewsByAuthor(string Author);
     Task<List<Review>> GetReviewsByHotel(string hotelName);
@@ -60,6 +61,8 @@ public class HotelService : IHotelService
     public async Task<List<Hotel>> GetHotelsByFilter(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await _hotelRepository.GetHotelsByFilter(PricePerNightMin, PricePerNightMax, StarRating);
     public async Task<List<Hotel>> GetHotelsByRegion(string Region) => await _hotelRepository.GetHotelsByRegion(Region);
     public async Task<List<Hotel>> GetHotelsByRegionAndFilter(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating) => await _hotelRepository.GetHotelsByRegionAndFilter(Region, PricePerNightMin, PricePerNightMax, StarRating);
+    public async Task<List<Hotel>> GetHotelsByRegionAndFilterAndNamepiece(string Region, decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece) => await _hotelRepository.GetHotelsByRegionAndFilterAndNamepiece(Region, PricePerNightMin, PricePerNightMax, StarRating, Namepiece);
+    public async Task<List<Hotel>> GetHotelsByFilterAndNamepiece(decimal PricePerNightMin, decimal PricePerNightMax, float StarRating, string Namepiece) => await _hotelRepository.GetHotelsByFilterAndNamepiece(PricePerNightMin, PricePerNightMax, StarRating, Namepiece);
     public async Task<List<RoomType>> GetHotelRoomTypesByFilterAndId(string Id, int NumberOfBeds, float SquareMeters, float PriceMax, float PriceMin, bool Television, bool Breakfast, bool Airco, bool Wifi, bool View) => await _hotelRepository.GetHotelRoomTypesByFilterAndId(Id, NumberOfBeds, SquareMeters, PriceMax, PriceMin, Television, Breakfast, Airco, Wifi, View);
     public async Task<Hotel> GetHotelById(string Id) => await _hotelRepository.GetHotelById(Id);
     public async Task<Hotel> AddHotel(Hotel newHotel) => await _hotelRepository.AddHotel(newHotel);
@@ -80,9 +83,8 @@ public class HotelService : IHotelService
     //Reservation
     public async Task<List<Reservation>> GetAllReservations() => await _reservationRepository.GetAllReservations();
     public async Task<List<Reservation>> GetReservationsByName(string Name, string FirstName) => await _reservationRepository.GetReservationsByName(Name, FirstName);
-    public async Task<List<Reservation>> GetReservationsByRegion(string Region) => await _reservationRepository.GetReservationsByRegion(Region);
-    public async Task<List<Reservation>> GetReservationsByFilter(string HotelName, DateTime DateOfReservation) => await _reservationRepository.GetReservationsByFilter(HotelName, DateOfReservation);
-    public async Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, DateTime DateOfReservation) => await _reservationRepository.GetReservationsByRegionAndFilter(Region, HotelName, DateOfReservation);
+    public async Task<List<Reservation>> GetReservationsByFilter(string HotelName, string IncheckDate, string OutcheckDate) => await _reservationRepository.GetReservationsByFilter(HotelName, IncheckDate, OutcheckDate);
+    public async Task<List<Reservation>> GetReservationsByMail(string Mail) => await _reservationRepository.GetReservationsByMail(Mail);
     public async Task<Reservation> GetReservationById(string Id) => await _reservationRepository.GetReservationById(Id);
     public async Task<Reservation> AddReservation(Reservation newReservation) => await _reservationRepository.AddReservation(newReservation);
     public async Task<Reservation> UpdateReservation(Reservation reservation) => await _reservationRepository.UpdateReservation(reservation);

@@ -6,10 +6,9 @@ public interface IReservationRepository
     Task<string> DeleteReservation(string Id);
     Task<List<Reservation>> GetAllReservations();
     Task<Reservation> GetReservationById(string Id);
-    Task<List<Reservation>> GetReservationsByFilter(string HotelName, DateTime DateOfReservation);
+    Task<List<Reservation>> GetReservationsByFilter(string HotelName, string IncheckDate, string OutcheckDate);
+    Task<List<Reservation>> GetReservationsByMail(string Mail);
     Task<List<Reservation>> GetReservationsByName(string Name, string FirstName);
-    Task<List<Reservation>> GetReservationsByRegion(string Region);
-    Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, DateTime DateOfReservation);
     Task<Reservation> UpdateReservation(Reservation reservation);
 }
 
@@ -36,42 +35,18 @@ public class ReservationRepository : IReservationRepository
 
     //GET
     public async Task<List<Reservation>> GetAllReservations() => await _context.ReservationCollection.Find<Reservation>(_ => true).ToListAsync();
-    public async Task<List<Reservation>> GetReservationsByName(string Name, string FirstName) => await _context.ReservationCollection.Find<Reservation>(c => (c.Name == Name) & (c.FirstName == FirstName)).ToListAsync();
-    public async Task<List<Reservation>> GetReservationsByRegion(string Region)
-    {
-        List<Reservation> chosenReservations = new List<Reservation>();
-        if(Provinces.Contains(Region))
-        chosenReservations = await _context.ReservationCollection.Find(c => c.Hotel.Province == Region).ToListAsync();
-        else
-        chosenReservations = await _context.ReservationCollection.Find(c => c.Hotel.City == Region).ToListAsync();
-        return chosenReservations;
-    }
-    public async Task<List<Reservation>> GetReservationsByFilter(string HotelName, DateTime DateOfReservation)
+    public async Task<List<Reservation>> GetReservationsByName(string Name, string FirstName) => await _context.ReservationCollection.Find<Reservation>(c => (c.LastName == Name) & (c.FirstName == FirstName)).ToListAsync();
+    public async Task<List<Reservation>> GetReservationsByFilter(string HotelName, string IncheckDate, string OutcheckDate)
     {
         List<Reservation> allReservations = await GetAllReservations();
         List<Reservation> chosenReservations = new List<Reservation>();
-        foreach(Reservation reservation in allReservations)
-        if(reservation.Hotel.Name.Contains(HotelName)) //if not filled in = ""
-        if(DateOfReservation.Month == reservation.DateOfReservation.Month && DateOfReservation.Day == reservation.DateOfReservation.Day && DateOfReservation.Year == reservation.DateOfReservation.Year) //if not filled in = 1/1/1900
-        chosenReservations.Add(reservation);
+        foreach (Reservation reservation in allReservations)
+            if (reservation.HotelName.Contains(HotelName))
+                if (IncheckDate == reservation.IncheckDate && OutcheckDate == reservation.OutcheckDate)
+                    chosenReservations.Add(reservation);
         return chosenReservations;
     }
-    public async Task<List<Reservation>> GetReservationsByRegionAndFilter(string Region, string HotelName, DateTime DateOfReservation)
-    {
-        List<Reservation> chosenReservationsRegion = new List<Reservation>();
-        List<Reservation> chosenReservations = new List<Reservation>();
-        if(Provinces.Contains(Region))
-        chosenReservationsRegion = await _context.ReservationCollection.Find(c => c.Hotel.Province == Region).ToListAsync();
-        else
-        chosenReservationsRegion = await _context.ReservationCollection.Find(c => c.Hotel.City == Region).ToListAsync();
-
-        foreach(Reservation reservation in chosenReservationsRegion)
-        if(reservation.Hotel.Name.Contains(HotelName))
-        if(DateOfReservation.Month == reservation.DateOfReservation.Month && DateOfReservation.Day == reservation.DateOfReservation.Day && DateOfReservation.Year == reservation.DateOfReservation.Year)
-        chosenReservations.Add(reservation);
-        return chosenReservations;
-
-    }
+    public async Task<List<Reservation>> GetReservationsByMail(string Mail) => await _context.ReservationCollection.Find<Reservation>(c => c.Mail == Mail).ToListAsync();
     public async Task<Reservation> GetReservationById(string Id) => await _context.ReservationCollection.Find<Reservation>(c => c.Id == Id).FirstOrDefaultAsync();
     //POST
     public async Task<Reservation> AddReservation(Reservation newReservation)
@@ -86,7 +61,7 @@ public class ReservationRepository : IReservationRepository
         try
         {
             var filter = Builders<Reservation>.Filter.Eq("Id", reservation.Id);
-            var update = Builders<Reservation>.Update.Set("Name", reservation.Name).Set("FirstName", reservation.FirstName).Set("BirthDate", reservation.BirthDate).Set("EMail", reservation.EMail).Set("Hotel", reservation.Hotel).Set("DateOfReservation", reservation.DateOfReservation).Set("Review", reservation.Review).Set("TotalPrice", reservation.TotalPrice).Set("RoomType", reservation.RoomType);
+            var update = Builders<Reservation>.Update.Set("LastName", reservation.LastName).Set("FirstName", reservation.FirstName).Set("Mail", reservation.Mail).Set("HotelName", reservation.HotelName).Set("IncheckDate", reservation.IncheckDate).Set("OutcheckDate", reservation.OutcheckDate).Set("Price", reservation.Price).Set("RoomTypeName", reservation.RoomTypeName);
             var result = await _context.ReservationCollection.UpdateOneAsync(filter, update);
             return await GetReservationById(reservation.Id);
         }

@@ -17,8 +17,9 @@ public class Mutation
             PricePerNightMax = input.PricePerNightMax,
             Description = input.Description,
             StarRating = input.StarRating,
-            Images = input.Images,
+            Image = input.Image,
             Reviews = input.Reviews,
+            RoomTypes = input.RoomTypes
         };
         var created = await hotelService.AddHotel(newHotel);
         return new AddHotelPayload(created);
@@ -27,14 +28,14 @@ public class Mutation
     {
         var newReservation = new Reservation()
         {
-            Name = input.Name,
+            LastName = input.LastName,
             FirstName = input.FirstName,
-            BirthDate = input.BirthDate,
-            EMail = input.EMail,
-            Hotel = input.hotel,
-            DateOfReservation = input.DateOfReservation,
-            Review = input.review,
-            TotalPrice = input.TotalPrice
+            Mail = input.Mail,
+            HotelName = input.HotelName,
+            IncheckDate = input.IncheckDate,
+            OutcheckDate = input.OutcheckDate,
+            Price = input.Price,
+            RoomTypeName = input.RoomTypeName
         };
         var created = await hotelService.AddReservation(newReservation);
         return new AddReservationPayload(created);
@@ -46,7 +47,8 @@ public class Mutation
             Author = input.Author,
             StarRating = input.StarRating,
             ReviewDescription = input.ReviewDescription,
-            Image = input.Image
+            Image = input.Image,
+            HotelName = input.HotelName
         };
         var created = await hotelService.AddReview(newReview);
         return new AddReviewPayload(created);
@@ -61,7 +63,10 @@ public class Mutation
             Breakfast = input.Breakfast,
             Airco = input.Airco,
             Wifi = input.Wifi,
-            View = input.View
+            View = input.View,
+            Price = input.Price,
+            HotelName = input.HotelName,
+            Image = input.Image
         };
         var created = await hotelService.AddRoomType(newRoomType);
         return new AddRoomTypePayload(created);
@@ -70,7 +75,7 @@ public class Mutation
     public async Task<AddHotelPayload> UpdateHotel([Service] IHotelService hotelService, UpdateHotelInput input){
         var updateHotel = new Hotel(){
             Id = input.Id,
-             Name = input.Name,
+            Name = input.Name,
             City = input.City,
             Address = input.Address,
             Province = input.Province,
@@ -80,8 +85,9 @@ public class Mutation
             PricePerNightMax = input.PricePerNightMax,
             Description = input.Description,
             StarRating = input.StarRating,
-            Images = input.Images,
-            Reviews = input.Reviews
+            Reviews = input.Reviews,
+            Image = input.Image,
+            RoomTypes = input.RoomTypes
         };
         var updated = await hotelService.UpdateHotel(updateHotel);
         return new AddHotelPayload(updated);
@@ -89,14 +95,14 @@ public class Mutation
     public async Task<AddReservationPayload> UpdateReservation([Service] IHotelService hotelService, UpdateReservationInput input){
         var updateReservation = new Reservation(){
             Id = input.Id,
-            Name = input.Name,
+            LastName = input.LastName,
             FirstName = input.FirstName,
-            BirthDate = input.BirthDate,
-            EMail = input.EMail,
-            Hotel = input.hotel,
-            DateOfReservation = input.DateOfReservation,
-            Review = input.review,
-            TotalPrice = input.TotalPrice
+            Mail = input.Mail,
+            HotelName = input.HotelName,
+            IncheckDate = input.IncheckDate,
+            OutcheckDate = input.OutcheckDate,
+            Price = input.Price,
+            RoomTypeName = input.RoomTypeName
         };
         var updated = await hotelService.UpdateReservation(updateReservation);
         return new AddReservationPayload(updated);
@@ -105,6 +111,7 @@ public class Mutation
         var updateReview = new Review(){
             Id = input.Id,
             Author = input.Author,
+            HotelName = input.HotelName,
             StarRating = input.StarRating,
             ReviewDescription = input.ReviewDescription,
             Image = input.Image
@@ -122,7 +129,10 @@ public class Mutation
             Breakfast = input.Breakfast,
             Airco = input.Airco,
             Wifi = input.Wifi,
-            View = input.View
+            View = input.View,
+            Price = input.Price,
+            HotelName = input.HotelName,
+            Image = input.Image
         };
         var updated = await hotelService.UpdateRoomType(updateRoomType);
         return new AddRoomTypePayload(updated);
