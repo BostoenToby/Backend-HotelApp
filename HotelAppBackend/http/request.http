@@ -8,6 +8,10 @@ Content-Type: application/json
 
 ###
 
+POST http://0.0.0.0:3000/chatSupport
+
+###
+
 GET http://0.0.0.0:3000/hotels HTTP/1.1
 
 ###

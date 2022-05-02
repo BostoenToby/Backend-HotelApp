@@ -18,6 +18,7 @@ builder.Services.AddTransient<IReviewRepository, ReviewRepository>();
 builder.Services.AddTransient<IHotelService, HotelService>();
 builder.Services.AddTransient<IMongoContext, MongoContext>();
 builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
+builder.Services.AddTransient<IChatService, ChatService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -162,6 +163,10 @@ app.MapPost("/review", async (IHotelService hotelService, IValidator<Review> val
     }
 });
 
+app.MapPost("/chatSupport", async(IChatService chatService) => {
+    await chatService.AskQuestion("Hello there.");
+});
+
 app.MapPut("/hotel", async (IHotelService hotelService, IValidator<Hotel> validator, Hotel hotel) =>
 {
     var validatorResult = validator.Validate(hotel);
@@ -224,7 +229,7 @@ app.MapDelete("/roomtype/{Id}", async (IHotelService hotelService, string Id) =>
 app.MapDelete("/reservation/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReservation(Id));
 app.MapDelete("/review/{Id}", async (IHotelService hotelService, string Id) => await hotelService.DeleteReview(Id));
 
-// app.Run("http://0.0.0.0:3000");
-app.Run("http://localhost:3000");
+app.Run("http://0.0.0.0:3000");
+// app.Run("http://localhost:3000");
 // app.Run();
 // public partial class Program { }
